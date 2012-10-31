@@ -23,7 +23,7 @@ class Store_model extends CI_Model
 		elseif(get_env() == "PROD")
 		{
 		$this->server_name = $this->prod_base;
-		$this->master_db_pass = "hPtgd5SDW4iRAtWFMxJj";
+		$this->master_db_pass = "VuQxLKjwBRowqC";
 		}
 		else
 		{
