@@ -1,0 +1,4 @@
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`) VALUES 
+('4e405a968ff943.21821580', 'return_policy', '(This is the return policy)', 'this is the title'),
+('4e40de96706c00.60365243', 'terms_and_conditions', 'These are the terms and conditions', 'Terms and Conditions'),
+('4e42f3584f9341.51022241', 'store_name', 'Test Store', 'Store Name');

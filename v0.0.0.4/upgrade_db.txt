@@ -1,0 +1,42 @@
+alter table products change product_description product_description TEXT;
+alter table products add column enabled_to_find tinyint(1) default 1;
+alter table products add column enabled_to_sell tinyint(1) default 1;
+
+CREATE TABLE `shipping_matrix` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cost_more_than` decimal(20,2) DEFAULT NULL,
+  `shipping_charge` decimal(20,2) DEFAULT NULL,
+  `shipping_option` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+
+alter table users add column auth_token varchar(50);
+
+create table audit_log(id int(11) not null auto_increment, `action` varchar(200), result varchar(50), messages text, time_logged datetime, ip_address varchar(24), session_id varchar(50),primary key(id));
+
+ALTER TABLE `controlled_files` add column `date_added` TIMESTAMP;
+
+
+alter table orders add column order_type varchar(50), add column payment_method varchar(50), add column `payment_received` datetime DEFAULT NULL;
+alter table shipping_address 	add column order_id varchar(50) DEFAULT NULL,
+				add column `email_address` varchar(80) DEFAULT NULL,
+  				add column `phone` varchar(20) DEFAULT NULL;
+alter table products add column height int(5), 
+		     add column width int(5), 
+ 		     add column length int(5), 
+		     add column weight float(4,2);
+
+
+CREATE TABLE `user_contact_information` (
+  `id` varchar(50) NOT NULL,
+  `full_name` varchar(50) NOT NULL,
+  `address_1` varchar(50) NOT NULL,
+  `address_2` varchar(50) NOT NULL,
+  `suburb` varchar(50) NOT NULL,
+  `state` varchar(20) NOT NULL,
+  `postcode` varchar(20) NOT NULL,
+  `order_id` varchar(50) DEFAULT NULL,
+  `email_address` varchar(80) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

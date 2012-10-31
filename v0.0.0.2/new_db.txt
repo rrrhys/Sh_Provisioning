@@ -1,0 +1,184 @@
+--
+-- MySQL 5.1.50
+-- Thu, 11 Aug 2011 21:33:03 +0000
+--
+
+CREATE TABLE `cart` (
+   `id` varchar(50) not null,
+   `date_added` datetime,
+   `date_modified` datetime,
+   `is_order` tinyint(1) default '0',
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `categories` (
+   `id` varchar(50) not null,
+   `category_name` varchar(50),
+   `parent_id` varchar(50),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `ci_sessions` (
+   `session_id` varchar(40) not null default '0',
+   `ip_address` varchar(16) not null default '0',
+   `user_agent` varchar(50) not null,
+   `last_activity` int(10) unsigned not null default '0',
+   `user_data` text,
+   PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `configurables` (
+   `id` varchar(50) not null,
+   `name` varchar(100),
+   `description` varchar(2000),
+   `title` varchar(500),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `logging` (
+   `id` varchar(50) not null,
+   `log_type` varchar(50),
+   `log_details` varchar(2000),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `order_notes` (
+   `id` varchar(50) not null,
+   `note` varchar(1000),
+   `note_added` timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+   `needs_action` int(1) default '0',
+   `order_id` varchar(50),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `orders` (
+   `id` varchar(50) not null,
+   `cart_id` varchar(50) not null,
+   `time_placed` timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+   `time_packed` datetime,
+   `time_posted` datetime,
+   `paypal_notes` varchar(3000),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `product_photos` (
+   `id` varchar(50) not null,
+   `product_id` varchar(50),
+   `photo_location` varchar(100),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `product_reviews` (
+   `id` varchar(50) not null,
+   `product_id` varchar(50),
+   `review_html` varchar(1000),
+   `review_stars` int(1),
+   `review_approved` int(1),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `products` (
+   `id` varchar(50) not null,
+   `product_name` varchar(200),
+   `product_description` varchar(2000),
+   `in_stock` int(11),
+   `price` decimal(5,2),
+   `cost` decimal(5,2),
+   `date_added` datetime,
+   `date_modified` datetime,
+   `category_id` varchar(50) not null,
+   `shipping_cost` decimal(5,2),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `products_in_carts` (
+   `id` varchar(50) not null,
+   `cart_id` varchar(50) not null,
+   `product_id` varchar(50) not null,
+   `quantity` int(11),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `products_in_categories` (
+   `id` varchar(50) not null,
+   `product_id` varchar(50) not null,
+   `category_id` varchar(50) not null,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `products_in_categories_promoted` (
+   `id` varchar(50) not null,
+   `product_id` varchar(50),
+   `category_id` varchar(50),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `products_in_order` (
+   `id` varchar(50) not null,
+   `order_id` varchar(50),
+   `product_name` varchar(50),
+   `product_description` varchar(2000),
+   `price` decimal(5,2),
+   `cost` decimal(5,2),
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `products_notify_when_in_stock` (
+   `id` varchar(50) not null,
+   `product_id` varchar(50) not null,
+   `email_address` varchar(50) not null,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `products_questions` (
+   `id` varchar(50) not null,
+   `product_id` varchar(50) not null,
+   `created` timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+   `email_address` varchar(50),
+   `answered` tinyint(1) default '0',
+   `question_text` varchar(1000),
+   `answer` varchar(1000),
+   `answered_timestamp` datetime,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `shipping_address` (
+   `id` varchar(50) not null,
+   `cart_id` varchar(50) not null,
+   `full_name` varchar(50) not null,
+   `address_1` varchar(50) not null,
+   `address_2` varchar(50) not null,
+   `suburb` varchar(50) not null,
+   `state` varchar(20) not null,
+   `postcode` varchar(20) not null,
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `users` (
+   `id` varchar(50) not null,
+   `email_address` varchar(50) not null,
+   `password` varchar(50),
+   `timezone` varchar(10),
+   `active` tinyint(1) default '0',
+   `activation_key` varchar(50),
+   `billing_id` varchar(50),
+   `auth_level` tinyint(1) default '1',
+   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

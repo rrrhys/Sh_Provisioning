@@ -1,0 +1,8 @@
+version|upgrade_from_version|config_file|database_config_file|new_database_setup|new_database_data|upgrade_database_setup|upgrade_database_data|version_releasedYYYYMMDDHHMM|CSS
+v0.0.0.1||v0.0.0.1/config.php|v0.0.0.1/database.php|v.0.0.0.1/new_db.txt|v0.0.0.1/new_data.txt|v.0.0.0.1/upgrade_db.txt|v0.0.0.1/upgrade_data.txt|201108120744
+v0.0.0.2||v0.0.0.2/config.php|v0.0.0.2/database.php|v0.0.0.2/new_db.txt|v0.0.0.2/new_data.txt|v0.0.0.2/upgrade_db.txt|v0.0.0.2/upgrade_data.txt|201108161826|v0.0.0.2/base.css
+v0.0.0.3||v0.0.0.3/config.php|v0.0.0.3/database.php|v0.0.0.3/new_db.txt|v0.0.0.3/new_data.txt|v0.0.0.3/upgrade_db.txt|v0.0.0.3/upgrade_data.txt|201123090743|v0.0.0.3/base.css
+v0.0.0.4|v0.0.0.3|v0.0.0.4/config.php|v0.0.0.4/database.php|||v0.0.0.4/upgrade_db.txt|v0.0.0.4/upgrade_data.txt||
+v0.0.0.5|v0.0.0.4|v0.0.0.5/config.php|v0.0.0.5/database.php|||v0.0.0.5/upgrade_db.txt|v0.0.0.5/upgrade_data.txt||
+v0.0.0.6|v0.0.0.5|v0.0.0.6/config.php|v0.0.0.6/database.php|||v0.0.0.6/upgrade_db.txt|v0.0.0.6/upgrade_data.txt||
+v0.0.0.7|v0.0.0.6|v0.0.0.7/config.php|v0.0.0.7/database.php|||v0.0.0.7/upgrade_db.txt|v0.0.0.7/upgrade_data.txt||

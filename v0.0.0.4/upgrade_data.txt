@@ -1,0 +1,13 @@
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`) VALUES ('4e4c33e3daacf5.20932853', 'shipping_option', '', 'Shipping Option', 'variable');
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`) VALUES ('4e4c33e3daacf5.20932854', 'policy_approved', '', 'Policies Approved', 'variable');
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`) VALUES ('4e4c33e3daacf5.20932855', 'show_logo_or_name', 'show_store_name', 'Show Logo or Name', 'variable');
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`) VALUES ('4e4c33e3daacf5.20932856', 'site_logo', '', 'Site Logo', 'variable');
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`) VALUES ('4e4c33e3daacf5.20932857', 'favicon', '', 'Fav Icon', '-');
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`) VALUES ('4e4c33e3daacf5.20932858', 'custom_footer', '', 'Custom Footer HTML', '');
+INSERT INTO `controlled_files` (`id`, `file_location`, `owner`, `permission_owner`, `permission_site_owners`, `filetype`, `filename_short`) VALUES (
+'4e692966286b7557271990', '/css/upmarket.css', '4e692966286b7557271989', '2', '2', 'css', 'Online Store - Upmarket');
+INSERT INTO `controlled_files` (`id`, `file_location`, `owner`, `permission_owner`, `permission_site_owners`, `filetype`, `filename_short`) VALUES (
+'4e692966286b7557271991', '/css/debug.css', '4e692966286b7557271989', '2', '2', 'css', 'Online Store - Debug');
+
+INSERT INTO `shipping_matrix` (`id`,`cost_more_than`,`shipping_charge`,`shipping_option`) VALUES (1,0.00,0.00,'free');
+INSERT INTO `shipping_matrix` (`id`,`cost_more_than`,`shipping_charge`,`shipping_option`) VALUES (2,0.00,8.50,'flat_rate');

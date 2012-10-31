@@ -1,0 +1,387 @@
+-- MySQL dump 10.13  Distrib 5.1.50, for Win32 (ia32)
+--
+-- Host: localhost    Database: store_rrrhys
+-- ------------------------------------------------------
+-- Server version	5.1.50-community
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `cart`
+--
+
+DROP TABLE IF EXISTS `cart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cart` (
+  `id` varchar(50) NOT NULL,
+  `date_added` datetime DEFAULT NULL,
+  `date_modified` datetime DEFAULT NULL,
+  `is_order` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `categories` (
+  `id` varchar(50) NOT NULL,
+  `category_name` varchar(50) DEFAULT NULL,
+  `parent_id` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ci_sessions`
+--
+
+DROP TABLE IF EXISTS `ci_sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ci_sessions` (
+  `session_id` varchar(40) NOT NULL DEFAULT '0',
+  `ip_address` varchar(16) NOT NULL DEFAULT '0',
+  `user_agent` varchar(50) NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text,
+  PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `configurables`
+--
+
+DROP TABLE IF EXISTS `configurables`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `configurables` (
+  `id` varchar(50) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `description` varchar(9000) DEFAULT NULL,
+  `title` varchar(500) DEFAULT NULL,
+  `configurable_type` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `controlled_files`
+--
+
+DROP TABLE IF EXISTS `controlled_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `controlled_files` (
+  `id` varchar(50) NOT NULL,
+  `file_location` varchar(100) DEFAULT NULL,
+  `owner` varchar(50) NOT NULL,
+  `permission_owner` int(11) DEFAULT NULL,
+  `permission_site_owners` int(11) DEFAULT NULL,
+  `filetype` varchar(20) DEFAULT NULL,
+  `filename_short` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `email`
+--
+
+DROP TABLE IF EXISTS `email`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `email` (
+  `id` varchar(50) NOT NULL,
+  `email_body` text,
+  `email_to` varchar(50) DEFAULT NULL,
+  `email_from` varchar(50) DEFAULT NULL,
+  `email_subject` varchar(150) DEFAULT NULL,
+  `dont_send_before` datetime DEFAULT NULL,
+  `email_queued` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `email_sent` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `logging`
+--
+
+DROP TABLE IF EXISTS `logging`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `logging` (
+  `id` varchar(50) NOT NULL,
+  `log_type` varchar(50) DEFAULT NULL,
+  `log_details` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `order_notes`
+--
+
+DROP TABLE IF EXISTS `order_notes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_notes` (
+  `id` varchar(50) NOT NULL,
+  `note` varchar(1000) DEFAULT NULL,
+  `note_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `needs_action` int(1) DEFAULT '0',
+  `order_id` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orders` (
+  `id` varchar(50) NOT NULL,
+  `cart_id` varchar(50) NOT NULL,
+  `time_placed` datetime NOT NULL,
+  `time_packed` datetime DEFAULT NULL,
+  `time_posted` datetime DEFAULT NULL,
+  `paypal_notes` varchar(3000) DEFAULT NULL,
+  `papers_printed` datetime DEFAULT NULL,
+  `email_address` varchar(100) DEFAULT NULL,
+  `paypal_txn_id` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product_photos`
+--
+
+DROP TABLE IF EXISTS `product_photos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_photos` (
+  `id` varchar(50) NOT NULL,
+  `product_id` varchar(50) DEFAULT NULL,
+  `photo_location` varchar(100) DEFAULT NULL,
+  `primary` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product_reviews`
+--
+
+DROP TABLE IF EXISTS `product_reviews`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_reviews` (
+  `id` varchar(50) NOT NULL,
+  `product_id` varchar(50) DEFAULT NULL,
+  `review_html` varchar(1000) DEFAULT NULL,
+  `review_stars` int(1) DEFAULT NULL,
+  `review_approved` int(1) DEFAULT NULL,
+  `email_address` varchar(100) DEFAULT NULL,
+  `customer_name` varchar(100) DEFAULT NULL,
+  `review_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products` (
+  `id` varchar(50) NOT NULL,
+  `product_name` varchar(200) DEFAULT NULL,
+  `product_description` varchar(2000) DEFAULT NULL,
+  `in_stock` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `cost` decimal(10,2) DEFAULT NULL,
+  `date_added` datetime DEFAULT NULL,
+  `date_modified` datetime DEFAULT NULL,
+  `category_id` varchar(50) NOT NULL,
+  `shipping_cost` decimal(10,2) DEFAULT NULL,
+  `store_code` varchar(100) DEFAULT NULL,
+  `supplier_code` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `products_in_carts`
+--
+
+DROP TABLE IF EXISTS `products_in_carts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products_in_carts` (
+  `id` varchar(50) NOT NULL,
+  `cart_id` varchar(50) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `products_in_categories`
+--
+
+DROP TABLE IF EXISTS `products_in_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products_in_categories` (
+  `id` varchar(50) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
+  `category_id` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `products_in_categories_promoted`
+--
+
+DROP TABLE IF EXISTS `products_in_categories_promoted`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products_in_categories_promoted` (
+  `id` varchar(50) NOT NULL,
+  `product_id` varchar(50) DEFAULT NULL,
+  `category_id` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `products_in_order`
+--
+
+DROP TABLE IF EXISTS `products_in_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products_in_order` (
+  `id` varchar(50) NOT NULL,
+  `order_id` varchar(50) DEFAULT NULL,
+  `product_name` varchar(50) DEFAULT NULL,
+  `product_description` varchar(2000) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `cost` decimal(10,2) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `product_id` varchar(100) DEFAULT NULL,
+  `store_code` varchar(100) DEFAULT NULL,
+  `supplier_code` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `products_notify_when_in_stock`
+--
+
+DROP TABLE IF EXISTS `products_notify_when_in_stock`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products_notify_when_in_stock` (
+  `id` varchar(50) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
+  `email_address` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `products_questions`
+--
+
+DROP TABLE IF EXISTS `products_questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products_questions` (
+  `id` varchar(50) NOT NULL,
+  `product_id` varchar(50) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `email_address` varchar(50) DEFAULT NULL,
+  `answered` tinyint(1) DEFAULT '0',
+  `question_text` varchar(1000) DEFAULT NULL,
+  `answer` varchar(1000) DEFAULT NULL,
+  `answered_timestamp` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `shipping_address`
+--
+
+DROP TABLE IF EXISTS `shipping_address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `shipping_address` (
+  `id` varchar(50) NOT NULL,
+  `cart_id` varchar(50) NOT NULL,
+  `full_name` varchar(50) NOT NULL,
+  `address_1` varchar(50) NOT NULL,
+  `address_2` varchar(50) NOT NULL,
+  `suburb` varchar(50) NOT NULL,
+  `state` varchar(20) NOT NULL,
+  `postcode` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` varchar(50) NOT NULL,
+  `email_address` varchar(50) NOT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `timezone` varchar(10) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT '0',
+  `activation_key` varchar(50) DEFAULT NULL,
+  `billing_id` varchar(50) DEFAULT NULL,
+  `auth_level` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2011-09-21  7:53:28

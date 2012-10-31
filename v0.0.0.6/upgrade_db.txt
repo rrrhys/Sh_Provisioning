@@ -1,0 +1,11 @@
+drop table if exists users_reviews;
+CREATE TABLE `users_reviews` (
+  `user_id` varchar(50) DEFAULT NULL,
+  `product_id` varchar(50) DEFAULT NULL,
+  `review_id` varchar(50) DEFAULT NULL,
+  primary key(review_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+alter table orders add column user_id varchar(50);
+
+alter table users add column active_address_id varchar(50);

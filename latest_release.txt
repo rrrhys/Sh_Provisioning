@@ -1,0 +1,2 @@
+version|upgrade_from_version|config_file|database_config_file|new_database_setup|new_database_data|upgrade_database_setup|upgrade_database_data|version_releasedYYYYMMDDHHMM|CSS
+v0.0.0.7|v0.0.0.6|v0.0.0.7/config.php|v0.0.0.7/database.php|||v0.0.0.7/upgrade_db.txt|v0.0.0.7/upgrade_data.txt||

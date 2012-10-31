@@ -1,0 +1,2 @@
+drop table if exists email;
+create table email(id varchar(50) not null, email_body text, email_to varchar(50), email_from varchar(50), email_subject varchar(150), dont_send_before datetime, email_queued timestamp, email_sent datetime, primary key(id));
