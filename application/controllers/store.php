@@ -131,6 +131,7 @@ class Store extends CI_Controller {
 		}
 
 		echo json_encode($retval);
+		redirect("/store/list_analytics");
 	}
 	function delete_user_json($login){
 		//function will carry out delete regardless of failed sections.
