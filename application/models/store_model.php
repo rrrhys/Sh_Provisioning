@@ -10,7 +10,7 @@ class Store_model extends CI_Model
 	public $dev_base = "devshopous.dev";
 	public $prod_base = "codeworkshop.com.au";
 	public $master_db_pass = "";
-	public $output_to_browser = true;
+	public $output_to_browser = false;
 	public $master_db_connection = array();
 	public $salt = "708324ee-c68e-4f73-a790-4db3e97cfb6d";
 	public function __construct(){
