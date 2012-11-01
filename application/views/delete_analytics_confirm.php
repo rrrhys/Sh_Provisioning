@@ -18,6 +18,7 @@
 				var dataobj = $.parseJSON(data);
 				if(dataobj.result == "success"){
 					$("#delete_successful").show();
+					redirect("/stores/list_analytics");
 				}
 				else{
 					if(dataobj.errors != undefined){
