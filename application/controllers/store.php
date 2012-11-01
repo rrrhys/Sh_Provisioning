@@ -215,7 +215,7 @@ class Store extends CI_Controller {
 			}
 			else
 			{
-			$analytics_auth_token = "b4127d9c329ca5d83d3c40f4b4aeed24";
+			$analytics_auth_token = "b39e22a5b28ba07aa5e5f1e81f388606";
 			}
 			$errors = array();
 			//$errors[] = array('error'=>'URL Taken','description'=>'That URL is already taken.');
