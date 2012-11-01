@@ -29,7 +29,7 @@ class Store_model extends CI_Model
 		{
 		$this->server_name = $this->prod_base;
 		$this->master_db_pass = "VuQxLKjwBRowqC";
-		$this->sites_base = "../../sites/";
+		$this->sites_base = "../../stores/shopous-sites/";
 		$this->asset_base = $this->sites_base . "assets/";
 		$this->instances_location = $this->sites_base . "instances.php";
 		}
@@ -349,7 +349,7 @@ class Store_model extends CI_Model
 		//$folder_name = str_replace("/","",$folder_name);
 		//$folder_name = str_replace(":","",$folder_name);
 		//config
-		$config_base = $this->sites_base . "/" . $version . "/config/";
+		$config_base = $this->sites_base .  $version . "/config/";
 		$site_base = $config_base . $folder_name;
 		$asset_base = $this->asset_base . $folder_name;
 		@mkdir($config_base,0755);
@@ -375,7 +375,7 @@ class Store_model extends CI_Model
 		$folder_name = $product_url;
 		$folder_name = str_replace("http://","",$folder_name);
 		//config
-		$config_base = "../sites/" . $version . "/config/";
+		$config_base = $this->sites_base . $version . "/config/";
 		$site_base = $config_base . $folder_name;
 		//site
 		rrmdir($site_base);
