@@ -2,7 +2,9 @@
 
 class Store_model extends CI_Model
 {
-	public $asset_base = "../sites/assets/";
+	public $sites_base = "";
+	public $asset_base = "";
+	public $instances_location = "";
 	public $base_url = "";
 	public $server_name = "";
 	public $dev_base = "devshopous.dev";
@@ -19,11 +21,17 @@ class Store_model extends CI_Model
 		if(get_env() == "DEV"){
 		$this->server_name = $this->dev_base;
 		$this->master_db_pass = "insecure_pass";
+		$this->sites_base = "../sites/";
+		$this->asset_base = "../sites/assets/";
+		$this->instances_location = "../sites/instances.php";
 		}
 		elseif(get_env() == "PROD")
 		{
 		$this->server_name = $this->prod_base;
 		$this->master_db_pass = "VuQxLKjwBRowqC";
+		$this->sites_base = "../../sites/";
+		$this->asset_base = $this->sites_base . "assets/";
+		$this->instances_location = $this->sites_base . "instances.php";
 		}
 		else
 		{
@@ -297,7 +305,7 @@ class Store_model extends CI_Model
 			//echo json_encode($all_stores);
 
 
-		$instances_location =  "../sites/instances.php";
+		$instances_location = $this->instances_location;
 
 		$file_handle = fopen($instances_location,'r');
 
@@ -341,7 +349,7 @@ class Store_model extends CI_Model
 		//$folder_name = str_replace("/","",$folder_name);
 		//$folder_name = str_replace(":","",$folder_name);
 		//config
-		$config_base = "../sites/" . $version . "/config/";
+		$config_base = $this->sites_base . "/" . $version . "/config/";
 		$site_base = $config_base . $folder_name;
 		$asset_base = $this->asset_base . $folder_name;
 		@mkdir($config_base,0755);
