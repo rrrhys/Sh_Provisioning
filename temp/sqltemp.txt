@@ -1,4 +1,4 @@
-connect `store_u_389478`;
+connect `store_u_261011`;
 -- MySQL dump 10.13  Distrib 5.1.50, for Win32 (ia32)
 --
 -- Host: localhost    Database: store_rrrhys
@@ -438,6 +438,7 @@ CREATE TABLE `users_reviews` (
 alter table orders add column user_id varchar(50);
 
 alter table users add column active_address_id varchar(50);
+alter table products add column active tinyint default 0;
 --
 -- MySQL 5.1.50
 -- Tue, 20 Sep 2011 21:55:38 +0000
@@ -492,4 +493,8 @@ INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable
 
 INSERT INTO `controlled_files` (`id`, `file_location`, `owner`, `permission_owner`, `permission_site_owners`, `filetype`, `filename_short`, `date_added`)
 VALUES
-	('4e692966286b7557271992', '/css/sport.css', '4e692966286b7557271989', 2, 2, 'css', 'Online Store - Sport', '2011-12-02 18:06:58');
+	('4e692966286b7557271992', '/css/sport.css', '4e692966286b7557271989', 2, 2, 'css', 'Online Store - Sport', '2011-12-02 18:06:58');INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`)
+VALUES
+	('508fb1fc4cb02501478336', 'welcome_text', 'Welcome to my store! Here you can get some good stuff I guess.', 'welcome text', NULL),
+	('4e4c33e3daacf5.20932862', 'hero_picture', 'Some Picture', 'Hero Picture for homepage', NULL);
+
