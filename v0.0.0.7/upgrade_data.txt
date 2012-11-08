@@ -2,7 +2,10 @@ INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable
 VALUES
 	('508fb1fc4cb02501478336', 'welcome_text', 'Welcome to my store! Here you can get some good stuff I guess.', 'welcome text', NULL),
 	('4e4c33e3daacf5.20932862', 'hero_picture', 'Some Picture', 'Hero Picture for homepage', NULL),
-	('4e4c33e3daacf5.20932863', 'generic_email_account', 'Generic Email Account', 'Generic Email Account', NULL);
+	('4e4c33e3daacf5.20932863', 'generic_email_account', 'Generic Email Account', '', NULL);
+	('4e4c33e3daacf5.20932864', 'show_advanced_options_product_add_edit', '0', 'Show advanced Options for Product Add/Edit', NULL);
 
 
-
+INSERT INTO `categories` (`id`, `category_name`, `parent_id`)
+VALUES
+	('1', 'Home', '');
