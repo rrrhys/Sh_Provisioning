@@ -5,6 +5,7 @@
 	<li><a href="/store/list_stores/">List Stores</a></li>
 	<li><a href="/store/list_analytics/">List Analytics</a></li>
 	<li><a href="/store/list_configurables">List Configurables</a></li>
+	<li><?=$guid?></li>
 </ul>
 <p>JSON Reference</p>
 <ul>

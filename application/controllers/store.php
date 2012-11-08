@@ -58,12 +58,17 @@ class Store extends CI_Controller {
 		echo json_encode($retval);
 		die();
 	}
+	function guid(){
+		echo gen_uuid();	
+	}
 	function index(){
 		$data = $this->_base_data();
 		$data['heading'] = "Administrator Console";
+		$data['guid'] = gen_uuid();
 		$this->load->view('header',$data);	
 		$this->load->view('index',$data);
-		$this->load->view('footer',$data);		
+		$this->load->view('footer',$data);	
+		
 	}
 	function list_stores(){
 		$data = $this->_base_data();
@@ -261,7 +266,7 @@ class Store extends CI_Controller {
 																						'store_name'=>$store_name,
 																						'email_address'=>$email_address,
 																						'password'=>$password));
-					$this->email_model->queue_email("Rhys.Williams@shopous.com",
+					$this->email_model->queue_email($this->content_model->get_configurable('fromEmailAddress'),
 					$email_address,
 					"New Account Created",
 					$email_body['description'],

@@ -38,6 +38,11 @@ class Content_model extends CI_Model
 		return $q;
 		
 	}
+	function get_configurable($configurable_name){
+		$this->db->where('name',$configurable_name);
+		$q = $this->db->get('configurables')->row_array();
+		return $q['description'];
+	}
 	function get_page_merged($page_name,$extra_vars = array()){
 		//supply an array of k->v pairs in $extra_vars to do extra merging req'd.
 		$this->db->where('name',$page_name);
