@@ -1,4 +1,4 @@
-connect `store_u_623142`;
+connect `store_u_280553`;
 -- MySQL dump 10.13  Distrib 5.1.50, for Win32 (ia32)
 --
 -- Host: localhost    Database: store_rrrhys
@@ -452,7 +452,7 @@ INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable
 ('4e4c3757dfc333.85737484', 'flat_rate_order', '0', 'Flat Rate per Order', 'variable'),
 ('4e4c380be40e46.09714856', 'flat_rate_item', '0', 'Flat Rate per Order', 'variable'),
 ('4e6483fcb75d7035071504', 'display_products_as', 'list_item', 'Display Products As', 'variable'),
-('4e74b01318eb2480465017', 'css_file', '', 'CSS file used', 'variable'),
+('4e74b01318eb2480465017', 'css_file', '/css/upmarket.css', 'CSS file used', 'variable'),
 ('4e654b0d46f66294296150', 'auto_control_stock', 'no', 'Automatically Control Stock', 'variable'),
 ('4e74b97ff0c26583529907', 'email_order_shipped', 'Order shipped', 'Your order has been shipped', 'email'),
 ('4e69361e1dbc1618580282', 'review_received_email', 'Your review was received etc.', 'Your Review was received', 'email'),
@@ -497,8 +497,11 @@ VALUES
 VALUES
 	('508fb1fc4cb02501478336', 'welcome_text', 'Welcome to my store! Here you can get some good stuff I guess.', 'welcome text', NULL),
 	('4e4c33e3daacf5.20932862', 'hero_picture', 'Some Picture', 'Hero Picture for homepage', NULL),
-	('4e4c33e3daacf5.20932863', 'generic_email_account', 'Generic Email Account', 'Generic Email Account', NULL);
+	('4e4c33e3daacf5.20932863', 'generic_email_account', 'Generic Email Account', '', NULL),
+	('4e4c33e3daacf5.20932864', 'show_advanced_options_product_add_edit', '0', 'Show advanced Options for Product Add/Edit', NULL);
 
 
-
+INSERT INTO `categories` (`id`, `category_name`, `parent_id`)
+VALUES
+	('1', 'Home', '');
 
