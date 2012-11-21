@@ -1,12 +1,24 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Store extends CI_Controller {
+	var $analytics_token = "";
 	function __construct(){
 		parent::__construct();
 		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->helper('form');
 
+			if(strpos($this->store_model->server_name,"devshopous.dev") > -1){
+			//if($_SERVER['SERVER_NAME'] == "provisioning." . $this->store_model->dev_base){
+			$analytics_auth_token = "e0ab1c86cc5181b9db6924159a19ac82";
+			}
+			else if(strpos($this->store_model->server_name,"shopous.com.au") > -1)
+			{
+			$analytics_auth_token = "81d12cde78bed76ace73036bc59710aa";
+			}
+			else {
+				echo "No analytics key matched.";
+			}
 		if(!$this->check_login()){
 			redirect("/login/");
 		}
@@ -214,14 +226,7 @@ class Store extends CI_Controller {
 			$shopkeeper_token = gen_uuid();
 			$shopous_token = gen_uuid();
 			
-			if(strpos($this->store_model->server_name,"devshopous.dev") > -1){
-			//if($_SERVER['SERVER_NAME'] == "provisioning." . $this->store_model->dev_base){
-			$analytics_auth_token = "e0ab1c86cc5181b9db6924159a19ac82";
-			}
-			else
-			{
-			$analytics_auth_token = "2ba78aef022ff43f5f5e514406e50b67";
-			}
+
 			$errors = array();
 			//$errors[] = array('error'=>'URL Taken','description'=>'That URL is already taken.');
 		

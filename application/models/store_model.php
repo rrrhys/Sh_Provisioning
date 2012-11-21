@@ -163,24 +163,6 @@ class Store_model extends CI_Model
 			$client_db->where('name','analytics_username')->set('description',$db_details['username'])->update('configurables');
 			$client_db->where('name','analytics_url')->set('description',$analytics_url)->update('configurables');
 			$client_db->where('name','analytics_token_auth')->set('description',$analytics_site['analytics_token_auth'])->update('configurables');
-		/*	$sql = "update configurables set description = :store_name where name='store_name'";
-			$params = array(array(	":store_name",	$_POST['configurable_product_name'],	PDO::PARAM_STR));
-		$result = execute_sql($sql,$params,$credentials);
-			$sql = "update configurables set description = :analytics_site_id where name='analytics_site_id'";
-			$params = array(array(	":analytics_site_id",	$analytics_site_id,	PDO::PARAM_STR));
-		$result = execute_sql($sql,$params,$credentials);
-			$sql = "update configurables set description = :analytics_username where name='analytics_username'";
-			$params = array(array(	":analytics_username",	$db_details['username'],	PDO::PARAM_STR));
-		$result = execute_sql($sql,$params,$credentials);
-			$sql = "update configurables set description = :analytics_password where name='analytics_password'";
-			$params = array(array(	":analytics_password",	md5($analytics_site['password']),	PDO::PARAM_STR));
-		$result = execute_sql($sql,$params,$credentials);
-			$sql = "update configurables set description = :analytics_url where name='analytics_url'";
-			$params = array(array(	":analytics_url",	$analytics_url,	PDO::PARAM_STR));
-		$result = execute_sql($sql,$params,$credentials);
-			$sql = "update configurables set description = :analytics_token_auth where name='analytics_token_auth'";
-			$params = array(array(	":analytics_token_auth",	$analytics_site['analytics_token_auth'],	PDO::PARAM_STR));
-		$result = execute_sql($sql,$params,$credentials);*/
 		return true;
 
 	}
