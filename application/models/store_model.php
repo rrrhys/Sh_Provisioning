@@ -15,6 +15,7 @@ class Store_model extends CI_Model
 	public $salt = "708324ee-c68e-4f73-a790-4db3e97cfb6d";
 	public $analytics_db_name = "";
 	public $analytics_db_prefix = "";
+	public $errors = array();
 	public function __construct(){
 		parent::__construct();
 		$this->base_url = strtolower($_SERVER['HTTP_HOST']);
@@ -98,6 +99,7 @@ class Store_model extends CI_Model
 		else{$retval['steps_completed'][] = "Copy Config File";}
 		if(!$this->setup_config_file($config_locations['config_file_location'])){
 			$retval['messages'][] = "Could not write to config file.";
+			$retval['messages'] = array_merge($retval['messages'], $this->errors);
 			return $retval;			
 		}
 		else{$retval['steps_completed'][] = "Modify Config File";}
@@ -366,6 +368,10 @@ class Store_model extends CI_Model
 	public function copy_config_files($site_version,$folder_locations){
 		$config_file_location = $folder_locations['site_base'] . "/config.php";
 		$database_file_location = $folder_locations['site_base'] . "/database.php";
+		if(!is_writable($config_file_location) && !is_writable($database_file_location)){
+			$this->errors[] = "Config and database file are not writable (e.g. " . $config_file_location . ")";
+			return false;
+		}
 		$this->debug_message("copying configs: ".$site_version['config_file'] . " and " . $site_version['database_config_file']);
 		copy($site_version['config_file'],$config_file_location);
 		copy($site_version['database_config_file'],$database_file_location);
