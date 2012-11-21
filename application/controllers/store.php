@@ -242,7 +242,7 @@ class Store extends CI_Controller {
 																	$analytics_password,
 																	$email_address,
 																	$database_username,
-																	$analytics_auth_token,
+																	$this->analytics_auth_token,
 																	$product_url);
 			if(!isset($analytics_site['analytics_site_id'])){
 				$continue_setup = false;
