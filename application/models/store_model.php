@@ -112,6 +112,7 @@ class Store_model extends CI_Model
 		
 		if(!$this->setup_user_database($db_details,$version)){
 			$retval['messages'][] = "Could not set up user database.";
+			$retval['messages'] = array_merge($retval['messages'], $this->errors);
 			return $retval;
 		}
 		else{$retval['steps_completed'][] = "Exec DB Setup";}
@@ -499,6 +500,10 @@ class Store_model extends CI_Model
 		$rows[] = "GRANT ALL PRIVILEGES ON `{$db_details['database']}`.* TO '{$db_details['username']}'@'localhost' IDENTIFIED BY '{$db_details['password']}';";
 
 		$this->debug_message("writing out db setup file");
+		if(!is_writable("temp/sqltemp.txt")){
+			$this->errors[] = "SQLTEMP is not writable.";
+			return false;
+		}
 		$file_handle = fopen("temp/sqltemp.txt",'w');
 		foreach($rows as $row){
 			fwrite($file_handle,$row . "\n",strlen($row)+1);
