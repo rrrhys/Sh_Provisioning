@@ -94,6 +94,7 @@ class Store_model extends CI_Model
 		$config_locations = $this->copy_config_files($site_version,$folder_locations);
 		if(!$config_locations){
 			$retval['messages'][] = "Could not copy config files.";
+			$retval['messages'] = array_merge($retval['messages'], $this->errors);
 			return $retval;			
 		}
 		else{$retval['steps_completed'][] = "Copy Config File";}
@@ -290,7 +291,7 @@ class Store_model extends CI_Model
 	}
 	function regenerate_instances_file(){
 
-		echo "Regenerate Instances";
+		//echo "Regenerate Instances";
 		$all_stores = $this->list_instances_active();
 			echo json_encode($all_stores);
 
