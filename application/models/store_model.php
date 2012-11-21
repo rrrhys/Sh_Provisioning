@@ -13,6 +13,8 @@ class Store_model extends CI_Model
 	public $output_to_browser = true;
 	public $master_db_connection = array();
 	public $salt = "708324ee-c68e-4f73-a790-4db3e97cfb6d";
+	public $analytics_db_name = "";
+	public $analytics_db_prefix = "";
 	public function __construct(){
 		parent::__construct();
 		$this->base_url = strtolower($_SERVER['HTTP_HOST']);
@@ -24,6 +26,8 @@ class Store_model extends CI_Model
 		$this->sites_base = "../sites/";
 		$this->asset_base = "../sites/assets/";
 		$this->instances_location = "../sites/instances.php";
+		$this->analytics_db_name = "piwik";
+		$this->analytics_db_prefix = "piwik_";
 		}
 		elseif(get_env() == "PROD")
 		{
@@ -32,6 +36,8 @@ class Store_model extends CI_Model
 		$this->sites_base = "../../stores/shopous-sites/";
 		$this->asset_base = $this->sites_base . "assets/";
 		$this->instances_location = $this->sites_base . "instances.php";
+		$this->analytics_db_name = "analytics";
+		$this->analytics_db_prefix = "analytics_";
 		}
 		else
 		{
@@ -214,7 +220,7 @@ class Store_model extends CI_Model
 		//get piwik site id.
 		$this->db->where('idsite',$idsite);
 		//echo $instance['store_url'];
-		$analytics_site = $this->db->get('piwik.piwik_site')->row_array();
+		$analytics_site = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_site")->row_array();
 
 		//echo json_encode($analytics_site);
 		if(!isset($analytics_site['idsite'])){
@@ -222,17 +228,17 @@ class Store_model extends CI_Model
 			return $retval;
 		}
 		$this->db->where('idsite',$analytics_site['idsite']);
-		$analytics_user = $this->db->get('piwik.piwik_access')->row_array();
+		$analytics_user = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_access")->row_array();
 		
 		//	echo json_encode($analytics_user);
 		
 		$this->db->where('idsite',$analytics_site['idsite']);
-		$this->db->delete('piwik.piwik_site');
+		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."_site");
 		$this->db->where('idsite',$analytics_site['idsite']);
-		$this->db->delete('piwik.piwik_access');
+		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."_access");
 		if(isset($analytics_user['login'])){
 			$this->db->where('login',$analytics_user['login']);
-			$this->db->delete('piwik.piwik_user');
+			$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."_user");
 		}
 		$retval['result'] = 'success';
 		return $retval;
@@ -240,7 +246,7 @@ class Store_model extends CI_Model
 	function delete_analytics_user($login){
 		$retval = array('result'=>'fail','errors'=>'');
 		$this->db->where('login',$login);
-		$this->db->delete('piwik.piwik_user');
+		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."_user");
 		$retval['result'] = 'success';
 		return $retval;
 	}
@@ -250,7 +256,7 @@ class Store_model extends CI_Model
 		//echo json_encode($instance);
 		//get piwik site id.
 		$this->db->where('name',$instance['store_url']);
-		$analytics_site = $this->db->get('piwik.piwik_site')->row_array();
+		$analytics_site = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_site")->row_array();
 		$retval = $this->delete_from_analytics_by_idsite($analytics_site['idsite']);
 		return $retval;
 	}
@@ -260,8 +266,8 @@ class Store_model extends CI_Model
 		return $q;
 	}
 	function list_analytics(){
-		$analytics_sites = $this->db->get('piwik.piwik_site')->result_array();
-		$analytics_users = $this->db->get('piwik.piwik_user')->result_array();
+		$analytics_sites = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_site")->result_array();
+		$analytics_users = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_user")->result_array();
 		return array(	'sites'=>$analytics_sites,
 						'users'=>$analytics_users);
 	}
@@ -270,7 +276,7 @@ class Store_model extends CI_Model
 		$store = $this->db->get('stores')->row_array();
 		if($store){
 		$this->db->where('main_url',$store['store_url']);
-		$analytics_store = $this->db->get('piwik.piwik_site')->row_array();
+		$analytics_store = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_site")->row_array();
 		$store['analytics'] = $analytics_store;
 		
 		return $store;
