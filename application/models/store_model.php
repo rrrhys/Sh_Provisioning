@@ -8,7 +8,7 @@ class Store_model extends CI_Model
 	public $base_url = "";
 	public $server_name = "";
 	public $dev_base = "devshopous.dev";
-	public $prod_base = "codeworkshop.com.au";
+	public $prod_base = "shopous.com.au";
 	public $master_db_pass = "";
 	public $output_to_browser = true;
 	public $master_db_connection = array();
