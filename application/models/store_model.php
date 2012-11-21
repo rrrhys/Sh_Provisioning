@@ -10,7 +10,7 @@ class Store_model extends CI_Model
 	public $dev_base = "devshopous.dev";
 	public $prod_base = "shopous.com.au";
 	public $master_db_pass = "";
-	public $output_to_browser = true;
+	public $output_to_browser = false;
 	public $master_db_connection = array();
 	public $salt = "708324ee-c68e-4f73-a790-4db3e97cfb6d";
 	public $analytics_db_name = "";
@@ -369,7 +369,7 @@ class Store_model extends CI_Model
 	public function copy_config_files($site_version,$folder_locations){
 		$config_file_location = $folder_locations['site_base'] . "/config.php";
 		$database_file_location = $folder_locations['site_base'] . "/database.php";
-		if(!is_writable($config_file_location) && !is_writable($database_file_location)){
+		if(!is_writable($site_version['config_file']) && !is_writable($site_version['database_config_file'])){
 			$this->errors[] = "Config and database file are not writable (e.g. " . $config_file_location . ")";
 			return false;
 		}
