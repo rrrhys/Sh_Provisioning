@@ -220,7 +220,7 @@ class Store_model extends CI_Model
 		//get piwik site id.
 		$this->db->where('idsite',$idsite);
 		//echo $instance['store_url'];
-		$analytics_site = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_site")->row_array();
+		$analytics_site = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."site")->row_array();
 
 		//echo json_encode($analytics_site);
 		if(!isset($analytics_site['idsite'])){
@@ -228,17 +228,17 @@ class Store_model extends CI_Model
 			return $retval;
 		}
 		$this->db->where('idsite',$analytics_site['idsite']);
-		$analytics_user = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_access")->row_array();
+		$analytics_user = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."access")->row_array();
 		
 		//	echo json_encode($analytics_user);
 		
 		$this->db->where('idsite',$analytics_site['idsite']);
-		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."_site");
+		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."site");
 		$this->db->where('idsite',$analytics_site['idsite']);
-		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."_access");
+		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."access");
 		if(isset($analytics_user['login'])){
 			$this->db->where('login',$analytics_user['login']);
-			$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."_user");
+			$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."user");
 		}
 		$retval['result'] = 'success';
 		return $retval;
@@ -246,7 +246,7 @@ class Store_model extends CI_Model
 	function delete_analytics_user($login){
 		$retval = array('result'=>'fail','errors'=>'');
 		$this->db->where('login',$login);
-		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."_user");
+		$this->db->delete($this->analytics_db_name.".".$this->analytics_db_prefix."user");
 		$retval['result'] = 'success';
 		return $retval;
 	}
@@ -256,7 +256,7 @@ class Store_model extends CI_Model
 		//echo json_encode($instance);
 		//get piwik site id.
 		$this->db->where('name',$instance['store_url']);
-		$analytics_site = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_site")->row_array();
+		$analytics_site = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."site")->row_array();
 		$retval = $this->delete_from_analytics_by_idsite($analytics_site['idsite']);
 		return $retval;
 	}
@@ -266,8 +266,8 @@ class Store_model extends CI_Model
 		return $q;
 	}
 	function list_analytics(){
-		$analytics_sites = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_site")->result_array();
-		$analytics_users = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_user")->result_array();
+		$analytics_sites = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."site")->result_array();
+		$analytics_users = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."user")->result_array();
 		return array(	'sites'=>$analytics_sites,
 						'users'=>$analytics_users);
 	}
@@ -276,7 +276,7 @@ class Store_model extends CI_Model
 		$store = $this->db->get('stores')->row_array();
 		if($store){
 		$this->db->where('main_url',$store['store_url']);
-		$analytics_store = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."_site")->row_array();
+		$analytics_store = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."site")->row_array();
 		$store['analytics'] = $analytics_store;
 		
 		return $store;
