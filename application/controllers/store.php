@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Store extends CI_Controller {
-	var $analytics_token = "";
+	var $analytics_auth_token = "";
 	function __construct(){
 		parent::__construct();
 		$this->load->library('session');
@@ -10,11 +10,11 @@ class Store extends CI_Controller {
 		$this->load->model('store_model');
 			if(strpos($this->store_model->server_name,"devshopous.dev") > -1){
 			//if($_SERVER['SERVER_NAME'] == "provisioning." . $this->store_model->dev_base){
-			$analytics_auth_token = "e0ab1c86cc5181b9db6924159a19ac82";
+			$this->analytics_auth_token = "e0ab1c86cc5181b9db6924159a19ac82";
 			}
 			else if(strpos($this->store_model->server_name,"shopous.com.au") > -1)
 			{
-			$analytics_auth_token = "81d12cde78bed76ace73036bc59710aa";
+			$this->analytics_auth_token = "81d12cde78bed76ace73036bc59710aa";
 			}
 			else {
 				echo "No analytics key matched.";
