@@ -28,7 +28,7 @@ class Store_model extends CI_Model
 		elseif(get_env() == "PROD")
 		{
 		$this->server_name = $this->prod_base;
-		$this->master_db_pass = "VuQxLKjwBRowqC";
+		$this->master_db_pass = "kaWraBReTufr22af";
 		$this->sites_base = "../../stores/shopous-sites/";
 		$this->asset_base = $this->sites_base . "assets/";
 		$this->instances_location = $this->sites_base . "instances.php";
