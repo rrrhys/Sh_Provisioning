@@ -294,7 +294,7 @@ class Store_model extends CI_Model
 
 		//echo "Regenerate Instances";
 		$all_stores = $this->list_instances_active();
-			echo json_encode($all_stores);
+		//	echo json_encode($all_stores);
 
 
 		$instances_location = $this->instances_location;

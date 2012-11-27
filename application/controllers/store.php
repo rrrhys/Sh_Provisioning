@@ -2,12 +2,14 @@
 
 class Store extends CI_Controller {
 	var $analytics_auth_token = "";
+	var $shopous_administrator_email = "hi@shopous.com.au";
 	function __construct(){
 		parent::__construct();
 		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$this->load->model('store_model');
+
 			if(strpos($this->store_model->server_name,"devshopous.dev") > -1){
 			//if($_SERVER['SERVER_NAME'] == "provisioning." . $this->store_model->dev_base){
 			$this->analytics_auth_token = "e0ab1c86cc5181b9db6924159a19ac82";
@@ -273,6 +275,12 @@ class Store extends CI_Controller {
 																						'password'=>$password));
 					$this->email_model->queue_email($this->content_model->get_configurable('fromEmailAddress'),
 					$email_address,
+					"New Account Created",
+					$email_body['description'],
+					"", 
+					true);
+					$this->email_model->queue_email($this->content_model->get_configurable('fromEmailAddress'),
+					$this->shopous_administrator_email,
 					"New Account Created",
 					$email_body['description'],
 					"", 
