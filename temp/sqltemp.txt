@@ -1,4 +1,4 @@
-connect `store_u_280553`;
+connect `store_u_376060`;
 -- MySQL dump 10.13  Distrib 5.1.50, for Win32 (ia32)
 --
 -- Host: localhost    Database: store_rrrhys
@@ -462,7 +462,7 @@ INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable
 ('4e76604fde98d509302350', 'email_user_on_order_received', 'yes', 'email user_on_order_received', ''),
 ('4e765ff5c3adb669619992', 'email_order_packed', 'Order packed', 'Your order has been packed', 'email'),
 ('4e76605018111017071167', 'email_user_on_order_packed', 'yes', 'email user_on_order_packed', ''),
-('4e790a15f3227943397062', 'store_address', '64 Sunrise Road\nYERRINBOOL NSW 2575', 'Store Address', ''),
+('4e790a15f3227943397062', 'store_address', '(Enter your store address or PO Box here)', 'Store Address', ''),
 ('4e7aeb1f8e9ba398914436', 'analytics_site_id','0','Analytics Site ID',''),
 ('4e7aeb1f8e9ba398914437', 'analytics_password','0','Analytics Password',''),
 ('4e7aeb1f8e9ba398914438', 'analytics_url','0','Analytics URL',''),
@@ -500,8 +500,32 @@ VALUES
 	('4e4c33e3daacf5.20932863', 'generic_email_account', 'Generic Email Account', '', NULL),
 	('4e4c33e3daacf5.20932864', 'show_advanced_options_product_add_edit', '0', 'Show advanced Options for Product Add/Edit', NULL);
 
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`)
+VALUES
+	('50a1fbf4c66cc110105665', 'homepage_featured_image', '', 'homepage featured_image', NULL);
+
 
 INSERT INTO `categories` (`id`, `category_name`, `parent_id`)
 VALUES
 	('1', 'Home', '');
+
+delete from configurables where id = '4e74b97ff0c26583529907';
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`)
+VALUES
+	('4e74b97ff0c26583529907', 'email_order_shipped', 'Hi there!\n\nThis is just a quick email from us to let you know your order was shipped today!\n\n\n\nRegards,\n\n#store_name#', 'Your order has been shipped', 'email');
+
+delete from configurables where id = '4e74c09886321622813271';
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`)
+VALUES
+	('4e74c09886321622813271', 'email_order_received', 'Hi there,\n\nYour order has been received and is currently being prepared for packing and postage (usually within 24-48 hours) so sit tight.\n\nWe will be in touch if there are any delays.\n\nRegards,\n\n#store_name#', 'Your order has been received!', 'email');
+
+
+delete from configurables where id = '4e40de96706c00.60365243';
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`) VALUES
+('4e40de96706c00.60365243', 'terms_and_conditions', '<p>\n	This Terms and Conditions document governs the use of #store_name# online store including shopping and participation in promotions run by #store_name#. You can access this Agreement at any time from the top of any page of the site.</p>\n<h3>\n	Shopping Terms &amp; Conditions</h3>\n<p>\n	#store_name# provides customers with convenient, quick, easy and secure shopping. Products displayed on the site shopping areas can be purchased using a secure online credit card transaction facility. Customers can be confident that all of their details are protected by the latest security mechanisms and are used only for purposes of the transaction fulfilment. You will be given the option to register as a member of #store_name#. Your shopping address details will be filed saving you the effort of entering these details each time you checkout. This is optional and purchases can easily be made without having to register.</p>\n<h3>\n	International Orders</h3>\n<p>\n	Due to security issues and fraud we can not accept credit cards outside the country of delivery.</p>\n<h3>\n	Pricing</h3>\n<p>\n	All prices in the shopping areas are in Australian dollars (AU$) and include GST (10% sales tax). All prices are correct at time of publication, however we reserve the right to alter prices for any reason. If this should happen after you have ordered a product, we will contact you prior to processing your order.</p>\n<h3>\n	Security</h3>\n<p>\n	We use a secure Hosted Payment page from Paypal to process online orders. Customers can see their cards being authorized and debited in real time, all in an SSL secure environment. The Hosted Payment page enables us to offer customers a safe and speedy online shopping experience. As part of the Hosted Payment page from Paypal, credit card information related to your order is never seen or stored by #store_name#.</p>\n<h3>\n	Contact Details</h3>\n<p>\n	If you have any queries regarding shopping with #store_name#, please email #generic_email_account#.</p>\n<h3>\n	Use of the Service by You</h3>\n<p>\n	You may not download, modify, transmit, or otherwise use any material from the site for public or commercial purposes.<br />\n	The sites content, information and advice is free of charge (unless otherwise stipulated). However you are responsible for your own network and connection charges.</p>\n<h3>\n	Disclaimer</h3>\n<p>\n	The information contained in the site has been prepared solely for the purpose of providing information about #store_name# and products we offer. #store_name# reserves the right to change, delete or move any of the material on the site at any time without notice. #store_name# and its affiliates shall not be liable to you or any third parties for any direct, indirect, special, consequential or punitive damages allegedly sustained arising out of your access to or inability to access the site. This includes viruses alleged to have been obtained from the site, your use of or reliance on the site or any of the information or materials available on the site, regardless of the type of claim or the nature of the cause of action.</p>\n<h3>\n	Policy Changes</h3>\n<p>\n	Any changes to this policy will be posted here.</p>\n', 'Terms and Conditions', 'page');
+
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`)
+VALUES
+	('50a22cb5152f7495111097', 'pay_offline_by_phone', 'checked', 'pay offline_by_phone', NULL);
+
 
