@@ -288,7 +288,7 @@ class Store_model extends CI_Model
 	}
 	function get_thumbnail_url($store_url){
 		//http://api1.thumbalizr.com/?url=http://www.ford.de&width=250
-		$api_address = "http://api1.thumbalizr.com/?url=".$store_url."&width=250";
+		$api_address = "http://img.bitpixels.com/getthumbnail?code=42769&size=200&url=".$store_url."";
 /*
 		$this->load->helper("curl_helper");
 
