@@ -1,2 +1,3 @@
 
 alter table products add column active tinyint default 0;
+alter table products add column deleted tinyint default 0;

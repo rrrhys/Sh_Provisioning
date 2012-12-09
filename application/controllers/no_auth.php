@@ -45,5 +45,13 @@ class No_auth extends CI_Controller {
 	
 	
 	}
+	function list_stores_json(){
+		$stores = $this->store_model->list_instances_active(true);
+		foreach($stores as &$store){
+			$store['thumb_url'] = $this->store_model->get_thumbnail_url($store['store_url']);
+			
+		}
+		echo json_encode($stores);
+	}
 
 }

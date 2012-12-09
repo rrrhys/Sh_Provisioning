@@ -243,7 +243,7 @@ class Store extends CI_Controller {
 			$analytics_site = $this->store_model->setup_analytics($database_username,
 																	$analytics_password,
 																	$email_address,
-																	$database_username,
+																	$email_address,
 																	$this->analytics_auth_token,
 																	$product_url);
 			if(!isset($analytics_site['analytics_site_id'])){

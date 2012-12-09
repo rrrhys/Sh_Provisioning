@@ -264,9 +264,20 @@ class Store_model extends CI_Model
 		$retval = $this->delete_from_analytics_by_idsite($analytics_site['idsite']);
 		return $retval;
 	}
-	function list_instances_active(){
+	function list_instances_active($strip_sensitive = true){
 		$this->db->where('enabled',1);
 		$q = $this->db->get('stores')->result_array();
+		if($strip_sensitive){
+			$sensitive = array('version','user_id','last_changed','error_logging','mysql_user_name','enabled','shopous_token','shopkeeper_token','db_name','db_details');
+			foreach($q as &$r){
+				foreach($r as $k=>$v){
+					if(in_array($k, $sensitive)){
+						//echo $k;
+						unset($r[$k]);
+					}
+				}
+			}
+		}
 		return $q;
 	}
 	function list_analytics(){
@@ -274,6 +285,22 @@ class Store_model extends CI_Model
 		$analytics_users = $this->db->get($this->analytics_db_name.".".$this->analytics_db_prefix."user")->result_array();
 		return array(	'sites'=>$analytics_sites,
 						'users'=>$analytics_users);
+	}
+	function get_thumbnail_url($store_url){
+		//http://api1.thumbalizr.com/?url=http://www.ford.de&width=250
+		$api_address = "http://api1.thumbalizr.com/?url=".$store_url."&width=250";
+/*
+		$this->load->helper("curl_helper");
+
+		$stored_name = "thumbnails/" . clean_to_ascii($store_url);
+
+		if(file_exists($stored_name)){
+			return $stored_name;
+		}else{
+			curl_get_and_save($api_address,$stored_name);
+			return $stored_name;
+		}*/
+		return $api_address;
 	}
 	function get_instance($instance_id){
 		$this->db->where('id',$instance_id);
