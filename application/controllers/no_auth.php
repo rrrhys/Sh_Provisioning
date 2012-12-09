@@ -49,6 +49,7 @@ class No_auth extends CI_Controller {
 		header('Access-Control-Allow-Origin: *');	
 		$stores = $this->store_model->list_instances_active(true);
 		foreach($stores as &$store){
+			$store['input_url'] = $store['store_url'] . "/store/home";
 			$store['thumb_url'] = $this->store_model->get_thumbnail_url($store['store_url'] . "/store/home");
 			
 		}
