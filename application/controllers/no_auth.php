@@ -60,7 +60,9 @@ class No_auth extends CI_Controller {
 				$product_url,
 				$store_name,
 				$email_address);
+			echo json_encode($result);
 			//send the user a success email
+			if($result['result'] == "success"){
 				$email_body = $this->content_model->get_page_merged('newStoreReady',array('url'=>$product_url,
 																						'store_name'=>$store_name,
 																						'email_address'=>$email_address,
@@ -71,7 +73,7 @@ class No_auth extends CI_Controller {
 					$email_body['description'],
 					"", 
 					true);
-			echo json_encode($result);
+			}
 		}
 	
 	
@@ -85,6 +87,11 @@ class No_auth extends CI_Controller {
 			
 		}
 		echo json_encode($stores);
+	}
+	function latest_release(){
+		echo json_encode($this->store_model->get_latest_release());
+		echo "<br />";
+		echo json_encode($this->store_model->get_release("v0.0.0.7"));
 	}
 
 }

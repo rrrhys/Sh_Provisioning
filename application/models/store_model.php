@@ -82,9 +82,10 @@ class Store_model extends CI_Model
 		$retval = array('result'=>'fail','steps_completed'=>array(),'messages'=>array());
 		if($version == ""){
 			$site_version = $this->get_latest_release();
+		}else{
+			$site_version = $this->get_release($version);
 		}
-		$site_version = $this->get_release($version);
-
+		$version = $site_version['version'];
 			$db_details = array(
 				'database'=>$this->store_model->_make_database_name(),
 				'username'=>$this->store_model->_make_database_username(),
@@ -106,7 +107,7 @@ class Store_model extends CI_Model
 		else{$retval['steps_completed'][] = "Get site version";}
 		if($this->instance_url_taken($product_url)){
 			$retval['messages'][] = "URL Taken: That website address is already taken!";
-			return retval;
+			return $retval;
 		}
 		$folder_locations = $this->create_folders($version,$product_url);
 
@@ -442,7 +443,8 @@ class Store_model extends CI_Model
 			$this->errors[] = "Config and database file are not writable (e.g. " . $config_file_location . ")";
 			return false;
 		}
-		$this->debug_message("copying configs: ".$site_version['config_file'] . " and " . $site_version['database_config_file']);
+		$this->debug_message("copying config ".$site_version['config_file'] . " to ".$config_file_location);
+		$this->debug_message("copying config ".$site_version['database_config_file']." to ".$database_file_location);
 		copy($site_version['config_file'],$config_file_location);
 		copy($site_version['database_config_file'],$database_file_location);
 		return array(	'config_file_location'=>$config_file_location,
