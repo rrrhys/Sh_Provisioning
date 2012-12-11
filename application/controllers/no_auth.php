@@ -28,8 +28,7 @@ class No_auth extends CI_Controller {
 	}
 
 	function create_store(){
-
-		$create_store_automatically = false;
+		$create_store_automatically = true;
 
 		header('Access-Control-Allow-Origin: *.shopous.com.au');	
 		$store_address = $this->input->post('store_address');
@@ -52,7 +51,27 @@ class No_auth extends CI_Controller {
 
 		echo json_encode(array('result'=>'success','messages'=>'Your account will be created shortly.'));
 		}else{
-			
+			$product_url = $this->input->post('store_address');
+			$store_name = $this->input->post('store_name');
+			$email_address = $this->input->post('email_address');
+			$version = ""; //automatically use latest.	
+
+			$result = $this->store_model->create_store($version,
+				$product_url,
+				$store_name,
+				$email_address);
+			//send the user a success email
+				$email_body = $this->content_model->get_page_merged('newStoreReady',array('url'=>$product_url,
+																						'store_name'=>$store_name,
+																						'email_address'=>$email_address,
+																						'password'=>$result['user_password']));
+					$this->email_model->queue_email($this->content_model->get_configurable('fromEmailAddress'),
+					$email_address,
+					"New Account Created",
+					$email_body['description'],
+					"", 
+					true);
+			echo json_encode($result);
 		}
 	
 	

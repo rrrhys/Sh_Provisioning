@@ -78,8 +78,11 @@ class Store_model extends CI_Model
 		$this->db->insert('stores',$insert);
 		return $this->db->affected_rows();
 	}
-	public function create_store($version,$product_url,$store_name,$email_address){
+	public function create_store($version="",$product_url,$store_name,$email_address){
 		$retval = array('result'=>'fail','steps_completed'=>array(),'messages'=>array());
+		if($version == ""){
+			$site_version = $this->get_latest_release();
+		}
 		$site_version = $this->get_release($version);
 
 			$db_details = array(

@@ -55,17 +55,12 @@ class Email_model extends CI_Model
 		$this->email->to($email['email_to']); 
 
 		$this->email->subject($email['email_subject']);
-		$this->email->message($email['email_body']);	
+		$this->email->message("<img src='http://www.shopous.com.au/shopous240.png' /><br />".$email['email_body'] . "<br /><br />" . "Email reference " . $email['id']);	
 
 		$this->email->send();
-		$this->email->clear();
-		$this->email->initialize($config);
-		$this->email->from($email['email_from'],$email['email_from']);
-		
 		$this->email->to($this->carbon_copy_email); 
 
 		$this->email->subject("BCC: " . $email['email_subject']);
-		$this->email->message($email['email_body']);	
 
 		$this->email->send();
 		//tell db

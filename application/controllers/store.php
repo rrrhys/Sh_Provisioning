@@ -2,7 +2,6 @@
 
 class Store extends CI_Controller {
 	var $analytics_auth_token = "";
-	var $shopous_administrator_email = "hi@shopous.com.au";
 	function __construct(){
 		parent::__construct();
 		$this->load->library('session');
@@ -206,12 +205,10 @@ class Store extends CI_Controller {
 	}
 	function create_store_json(){
 			$retval = array('result'=>'fail','errors'=>array());
-			//details that will be saved for this user
-			$continue_setup = true;
+
 			$product_url = $this->input->post('store_url');
 			$store_name = $this->input->post('store_name');
 			$email_address = $this->input->post('administrator_email');
-			//$rows[] = "GRANT ALL PRIVILEGES ON `{$db_details['database']}`.* TO '{$db_details['username']}'@'localhost' IDENTIFIED BY '{$db_details['password']}';";
 			$version = $this->input->post('version');
 
 			
@@ -229,12 +226,6 @@ class Store extends CI_Controller {
 																						'password'=>$result['user_password']));
 					$this->email_model->queue_email($this->content_model->get_configurable('fromEmailAddress'),
 					$email_address,
-					"New Account Created",
-					$email_body['description'],
-					"", 
-					true);
-					$this->email_model->queue_email($this->content_model->get_configurable('fromEmailAddress'),
-					$this->shopous_administrator_email,
 					"New Account Created",
 					$email_body['description'],
 					"", 
