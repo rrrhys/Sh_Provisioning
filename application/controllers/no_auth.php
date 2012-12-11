@@ -28,15 +28,20 @@ class No_auth extends CI_Controller {
 	}
 
 	function create_store(){
-		header('Access-Control-Allow-Origin: *');	
-		$product_url = $this->input->post('store_url');
+
+		$create_store_automatically = false;
+
+		header('Access-Control-Allow-Origin: *.shopous.com.au');	
+		$store_address = $this->input->post('store_address');
 		$store_name = $this->input->post('store_name');
-		$email_address = $this->input->post('administrator_email');
-		$email_body = 	"Product URL: $product_url<br />".
+		$full_name = $this->input->post('full_name');
+		$email_address = $this->input->post('email_address');
+		$email_body = 	"Store Address: $store_address<br />".
 						"Email Address: $email_address<br />".
+						"Full Name: $full_name<br />".
 						"Store Name: $store_name";
-			$this->email_model->queue_email("Rhys.Williams@shopous.com",
-			"Rhys.Williams@shopous.com",
+			$this->email_model->queue_email("Rhys.Williams@shopous.com.au",
+			"Rhys.Williams@shopous.com.au",
 			"New Account Requested",
 			$email_body,
 			"", 
