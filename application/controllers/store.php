@@ -10,6 +10,8 @@ class Store extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->model('store_model');
 
+		//TODO: REMOVE ANALYTICS AUTH TOKEN
+
 			if(strpos($this->store_model->server_name,"devshopous.dev") > -1){
 			//if($_SERVER['SERVER_NAME'] == "provisioning." . $this->store_model->dev_base){
 			$this->analytics_auth_token = "e0ab1c86cc5181b9db6924159a19ac82";
@@ -106,7 +108,7 @@ class Store extends CI_Controller {
 		$this->load->view('footer',$data);
 	}
 	function list_stores_json(){
-		$stores = $this->store_model->list_instances_active();
+		$stores = $this->store_model->list_instances_active(false);
 		echo json_encode(array('result'=>'success','stores'=>$stores));
 	}
 	function list_analytics_json(){
@@ -210,69 +212,21 @@ class Store extends CI_Controller {
 			$store_name = $this->input->post('store_name');
 			$email_address = $this->input->post('administrator_email');
 			//$rows[] = "GRANT ALL PRIVILEGES ON `{$db_details['database']}`.* TO '{$db_details['username']}'@'localhost' IDENTIFIED BY '{$db_details['password']}';";
-			
-			$database_username = $this->_make_database_username($this->input->post('user_id'));
-			$database_password = uniqid() . "shopoussalt20111208";
-			$database_name = $this->_make_database_name($this->input->post('username'));
-			
-			$db_details = array();
-			$db_details['database'] = $database_name;
-			$db_details['username'] = $database_username;
-			$db_details['password'] = $database_password;
-			
-			$password = uniqid();
-			$analytics_password = uniqid();
 			$version = $this->input->post('version');
-			$analytics_site_id = 0;
-			
-			$shopkeeper_token = gen_uuid();
-			$shopous_token = gen_uuid();
+
 			
 
 			$errors = array();
-			//$errors[] = array('error'=>'URL Taken','description'=>'That URL is already taken.');
-		
-			if($this->store_model->instance_url_taken($product_url)){
-				$continue_setup = false;
-				$retval['errors'] = array('error'=>'URL Taken','description'=>'That URL is already taken.');
-			}
-			if(!$continue_setup){
-				$this->_fail_create_store($retval);
-				die();
-			}
-			$analytics_site = $this->store_model->setup_analytics($database_username,
-																	$analytics_password,
-																	$email_address,
-																	$email_address,
-																	$this->analytics_auth_token,
-																	$product_url);
-			if(!isset($analytics_site['analytics_site_id'])){
-				$continue_setup = false;
-				//setup failed due to analytics error.
-				$retval['errors'] = array('error'=>'Analytics setup failed','description'=>$analytics_site['errors']);
-				//var_dump($analytics_site);
-			//	echo "(roll back analytics setups)";
-			}
-			if(!$continue_setup){
-				$this->_fail_create_store($retval);
-				die();
-			}
-			$analytics_site_id = $analytics_site['analytics_site_id'];
-			
+
 			$result = $this->store_model->create_store($version,
 				$product_url,
 				$store_name,
-				$db_details,
-				$shopkeeper_token,
-				$shopous_token,
-				$analytics_site,
-				$email_address,
-				$password);
+				$email_address);
 			//send the user a success email
 				$email_body = $this->content_model->get_page_merged('newStoreReady',array('url'=>$product_url,
 																						'store_name'=>$store_name,
 																						'email_address'=>$email_address,
-																						'password'=>$password));
+																						'password'=>$result['user_password']));
 					$this->email_model->queue_email($this->content_model->get_configurable('fromEmailAddress'),
 					$email_address,
 					"New Account Created",
@@ -286,27 +240,7 @@ class Store extends CI_Controller {
 					"", 
 					true);
 			echo json_encode($result);
-			/*if($result['success'] == 'false'){
-					$continue_setup = false;
-					//setup failed due to analytics error.
-					$retval['errors'] = array('error'=>implode("<br />",$result['messages']),'description'=>$analytics_site['errors']);
-					//var_dump($analytics_site);
-					$this->_fail_create_store($retval);
-					die();
-					echo "(roll back m setainups)";
-			}*/
 	}
-	function _make_database_name($input){
-		return "store_". $this->_make_database_username($input);
-	}
-	function _make_database_username($input){
-		//shorten to 10 chars, add a random string to end
-		$output = "u_".str_replace(" ","",$input);
-		if(strlen($output) >= 10){
-			$output = substr($output,0,10);
-		}
-			$output .= mt_rand(100000,999999);
-		return $output;
 
-	}
+
 }

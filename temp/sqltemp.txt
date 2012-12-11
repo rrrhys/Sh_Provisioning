@@ -1,4 +1,4 @@
-connect `store_u_620167`;
+connect `store_u_283328`;
 -- MySQL dump 10.13  Distrib 5.1.50, for Win32 (ia32)
 --
 -- Host: localhost    Database: store_rrrhys
@@ -439,6 +439,7 @@ alter table orders add column user_id varchar(50);
 
 alter table users add column active_address_id varchar(50);
 alter table products add column active tinyint default 0;
+alter table products add column deleted tinyint default 0;
 --
 -- MySQL 5.1.50
 -- Tue, 20 Sep 2011 21:55:38 +0000

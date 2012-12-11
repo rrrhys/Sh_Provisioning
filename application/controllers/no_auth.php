@@ -36,17 +36,24 @@ class No_auth extends CI_Controller {
 		$store_name = $this->input->post('store_name');
 		$full_name = $this->input->post('full_name');
 		$email_address = $this->input->post('email_address');
+		$email_subject = "ACTIVITY REQUIRED: New Account Requested";
+
+		if(!$create_store_automatically){
 		$email_body = 	"Store Address: $store_address<br />".
 						"Email Address: $email_address<br />".
 						"Full Name: $full_name<br />".
 						"Store Name: $store_name";
 			$this->email_model->queue_email("Rhys.Williams@shopous.com.au",
 			"Rhys.Williams@shopous.com.au",
-			"New Account Requested",
+			$email_subject,
 			$email_body,
 			"", 
 			true);
-	echo json_encode(array('result'=>'success'));
+
+		echo json_encode(array('result'=>'success','messages'=>'Your account will be created shortly.'));
+		}else{
+			
+		}
 	
 	
 	}

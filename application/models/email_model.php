@@ -2,7 +2,7 @@
 
 class Email_model extends CI_Model 
 {
-	var $carbon_copy_email = "rrrhys@gmail.com";
+	var $carbon_copy_email = "correspondence@shopous.com.au";
 	function __construct()
 	{
 		parent::__construct();
@@ -53,9 +53,18 @@ class Email_model extends CI_Model
 		$this->email->from($email['email_from'],$email['email_from']);
 		
 		$this->email->to($email['email_to']); 
-		$this->email->bcc($this->carbon_copy_email); 
 
 		$this->email->subject($email['email_subject']);
+		$this->email->message($email['email_body']);	
+
+		$this->email->send();
+		$this->email->clear();
+		$this->email->initialize($config);
+		$this->email->from($email['email_from'],$email['email_from']);
+		
+		$this->email->to($this->carbon_copy_email); 
+
+		$this->email->subject("BCC: " . $email['email_subject']);
 		$this->email->message($email['email_body']);	
 
 		$this->email->send();
