@@ -121,7 +121,7 @@ class Store_model extends CI_Model
 												);
 		if(!isset($analytics_site['analytics_site_id'])){
 			$retval['messages'][] = "Analytics setup failed: " . $analytics_site['errors'];
-			return retval;
+			return $retval;
 		}
 		else{$retval['steps_completed'][] = "Set up analytics";}
 
