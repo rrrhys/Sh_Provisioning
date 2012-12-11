@@ -28,9 +28,10 @@ class No_auth extends CI_Controller {
 	}
 
 	function create_store(){
+		header('Access-Control-Allow-Origin: http://www.shopous.com.au');	
 		$create_store_automatically = true;
 
-		header('Access-Control-Allow-Origin: *.shopous.com.au');	
+		
 		$store_address = $this->input->post('store_address');
 		$store_name = $this->input->post('store_name');
 		$full_name = $this->input->post('full_name');
