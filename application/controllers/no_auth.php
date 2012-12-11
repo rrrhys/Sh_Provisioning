@@ -70,7 +70,7 @@ class No_auth extends CI_Controller {
 																						'password'=>$result['user_password']));
 					$this->email_model->queue_email($this->content_model->get_configurable('fromEmailAddress'),
 					$email_address,
-					"New Account Created",
+					"Your store '$store_name' is ready!",
 					$email_body['description'],
 					"", 
 					true);
