@@ -28,7 +28,9 @@ class No_auth extends CI_Controller {
 	}
 
 	function create_store(){
-		header('Access-Control-Allow-Origin: http://www.shopous.com.au');	
+		if($_SERVER['HTTP_ORIGIN'] == "http://www.shopous.com.au" || 
+			$_SERVER['HTTP_ORIGIN'] == "http://www.devshopous.dev" )
+		header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");	
 		$create_store_automatically = true;
 
 		
