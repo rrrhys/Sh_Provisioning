@@ -49,7 +49,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'insecure_pass';
+$db['default']['password'] = "Must be set in database_password.php";
 $db['default']['database'] = 'shopous_central';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
@@ -62,7 +62,13 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
-
-
+@include("database_password.php");
+if($db['default']['password'] == "Must be set in database_password.php"){
+echo "DB CONFIG NOT FINISHED - create database_password.php file in application/config";
+echo "<br />";
+echo "Should have one line of config: ";
+echo '$db[\'default\'][\'password\'] = \'insecure_pass\';';
+die();
+}
 /* End of file database.php */
 /* Location: ./application/config/database.php */

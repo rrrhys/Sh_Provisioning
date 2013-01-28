@@ -183,6 +183,7 @@ class Store extends CI_Controller {
 		$data = $this->_base_data();
 		$data['heading'] = "Delete Site";
 		$data['idsite'] = $idsite;
+		$data['shortcuts'] = array(array('link'=>'/store/list_analytics','name'=>'List Analytics'));
 		$this->load->view('header',$data);
 		$this->load->view('delete_analytics_confirm',$data);
 		$this->load->view('footer',$data);		
@@ -219,6 +220,7 @@ class Store extends CI_Controller {
 				$product_url,
 				$store_name,
 				$email_address);
+			if($result['result'] == "success"){
 			//send the user a success email
 				$email_body = $this->content_model->get_page_merged('newStoreReady',array('url'=>$product_url,
 																						'store_name'=>$store_name,
@@ -230,6 +232,7 @@ class Store extends CI_Controller {
 					$email_body['description'],
 					"", 
 					true);
+			}
 			echo json_encode($result);
 	}
 

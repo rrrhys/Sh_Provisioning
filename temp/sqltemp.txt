@@ -1,4 +1,4 @@
-connect `store_u_881146`;
+connect `store_u_892198`;
 -- MySQL dump 10.13  Distrib 5.1.50, for Win32 (ia32)
 --
 -- Host: localhost    Database: store_rrrhys
