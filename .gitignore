@@ -1,4 +1,4 @@
-sqltemp.txt
+temp/sqltemp.txt
 thumbnails/*
 application/config/database_password.php
 application/config/instance_config.php
