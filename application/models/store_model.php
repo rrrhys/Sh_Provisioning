@@ -21,26 +21,29 @@ class Store_model extends CI_Model
 		$this->base_url = strtolower($_SERVER['HTTP_HOST']);
 		
 	//	if($this->base_url == "provisioning2.devshopous.dev" || $this->base_url == "provisioning.devshopous.dev"){
-		if(get_env() == "DEV"){
+		
 		$this->server_name = $this->dev_base;
-		$this->master_db_pass = "insecure_pass";
-		$this->sites_base = "../sites/";
-		$this->asset_base = "../sites/assets/";
-		$this->instances_location = "../sites/instances.php";
-		$this->analytics_db_name = "piwik";
-		$this->analytics_db_prefix = "piwik_";
-		$this->analytics_auth_token = "e0ab1c86cc5181b9db6924159a19ac82";
+		$this->master_db_pass = $this->config->config['master_db_pass'];
+		$this->sites_base = $this->config->config['relative_sites_base'];
+		$this->asset_base = $this->config->config['relative_assets_base'];
+		$this->instances_location = $this->config->config['instances_php_file'];
+		$this->analytics_db_name = $this->config->config['analytics_db_name'];
+		$this->analytics_db_prefix = $this->config->config['analytics_db_prefix'];
+		$this->analytics_auth_token = $this->config->config['analytics_auth_token'];
+		$this->master_db_name = $this->config->config['master_db_username'];
+		if(get_env() == "DEV"){
+
 		}
 		elseif(get_env() == "PROD")
 		{
-		$this->server_name = $this->prod_base;
+		/*$this->server_name = $this->prod_base;
 		$this->master_db_pass = "kaWraBReTufr22af";
 		$this->sites_base = "../../stores/shopous-sites/";
 		$this->asset_base = $this->sites_base . "assets/";
 		$this->instances_location = $this->sites_base . "instances.php";
 		$this->analytics_db_name = "analytics";
 		$this->analytics_db_prefix = "analytics_";
-		$this->analytics_auth_token = "81d12cde78bed76ace73036bc59710aa";
+		$this->analytics_auth_token = "81d12cde78bed76ace73036bc59710aa";*/
 		}
 		else
 		{
@@ -49,7 +52,7 @@ class Store_model extends CI_Model
 		}
 		$master_db_connection = &$this->master_db_connection;
 		$master_db_connection['hostname'] = "127.0.0.1";
-		$master_db_connection['username'] = "root";
+		$master_db_connection['username'] = $this->master_db_name;
 		$master_db_connection['password'] = $this->master_db_pass;
 		$master_db_connection['database'] = "shopous_central";
 		$master_db_connection['dbdriver'] = "mysql";
