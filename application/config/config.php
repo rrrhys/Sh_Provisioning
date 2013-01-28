@@ -370,6 +370,7 @@ $instance_configs_expected['analytics_db_name'] = "analytics_db_name";
 $instance_configs_expected['analytics_db_prefix'] = "analytics_db_prefix";
 $instance_configs_expected['analytics_auth_token'] = "analytics_auth_token";
 $instance_configs_expected['master_db_username'] = "master_db_username";
+$instance_configs_expected['mysql_location'] = "mysql_location";
 //set config vars to be the defaults.
 foreach($instance_configs_expected as $k=>$v){
 	$config[$k] = $v;

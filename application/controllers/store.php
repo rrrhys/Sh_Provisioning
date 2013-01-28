@@ -8,20 +8,9 @@ class Store extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$this->load->model('store_model');
+		
+		$this->analytics_auth_token = $this->config->config['analytics_auth_token'];
 
-		//TODO: REMOVE ANALYTICS AUTH TOKEN
-
-			if(strpos($this->store_model->server_name,"devshopous.dev") > -1){
-			//if($_SERVER['SERVER_NAME'] == "provisioning." . $this->store_model->dev_base){
-			$this->analytics_auth_token = "e0ab1c86cc5181b9db6924159a19ac82";
-			}
-			else if(strpos($this->store_model->server_name,"shopous.com.au") > -1)
-			{
-			$this->analytics_auth_token = "81d12cde78bed76ace73036bc59710aa";
-			}
-			else {
-				echo "No analytics key matched.";
-			}
 		if(!$this->check_login()){
 			redirect("/login/");
 		}
@@ -115,28 +104,8 @@ class Store extends CI_Controller {
 		echo json_encode(array('result'=>'success','analytics'=>$analytics));
 	}
 	function delete_store_json($store_id){
-		//function will carry out delete regardless of failed sections.
-		$retval = array('result'=>'fail','errors'=>array());
-		$result = $this->store_model->delete_from_analytics($store_id);
-		if($result['result'] == 'fail'){
-			$retval['errors'][] = $result['errors'];
-			echo "an";
-		}
-		$result = $this->store_model->delete_from_filesystem($store_id);
-		if($result['result'] == 'fail'){
-			$retval['errors'][] = $result['errors'];
-			echo "FS";
-		}
-		$result = $this->store_model->delete_from_db($store_id);
-		if($result['result'] == 'fail'){
-			$retval['errors'][] = $result['errors'];
-			echo "DB";
-		}
-		if(count($retval['errors']) == 0){
-			$retval['result'] = "success";
-		}
-
-		echo json_encode($retval);
+		$result = $this->store_model->delete_store($store_id);
+		echo json_encode($result);
 	}
 	function delete_analytics_site_json($idsite){
 		//function will carry out delete regardless of failed sections.
@@ -204,6 +173,31 @@ class Store extends CI_Controller {
 			$this->load->view('create_store',$data);
 			$this->load->view('footer',$data);
 	}
+	function unit_test(){
+		//work in progress.
+		$result = array();
+		$result['result'] = 'success';
+			//creating a store.
+					$product_url = "http://store.tester.com";
+					$store_name = "_TESTER_STORE_NAME_";
+					$email_address = "TESTER@TESTER.COM";
+					$version = "";
+					$result['create_store'] =  $this->store_model->create_store($version,
+				$product_url,
+				$store_name,
+				$email_address);
+				if($result['create_store']['result'] == "success"){
+					$result['delete_store'] = $this->store_model->delete_store($result['create_store']['id']);
+					if($result['delete_store']['result'] == "success"){
+						//delete passed.
+					}else{
+						$result['result'] = "fail";
+					}
+				}else{
+					$result['result'] = "fail";
+				}
+				echo json_encode($result);
+		}
 	function create_store_json(){
 			$retval = array('result'=>'fail','errors'=>array());
 

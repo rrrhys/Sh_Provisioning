@@ -9,6 +9,7 @@ class Store_model extends CI_Model
 	public $server_name = "";
 	public $dev_base = "devshopous.dev";
 	public $prod_base = "shopous.com.au";
+	public $master_db_name = "";
 	public $master_db_pass = "";
 	public $output_to_browser = false;
 	public $master_db_connection = array();
@@ -31,25 +32,7 @@ class Store_model extends CI_Model
 		$this->analytics_db_prefix = $this->config->config['analytics_db_prefix'];
 		$this->analytics_auth_token = $this->config->config['analytics_auth_token'];
 		$this->master_db_name = $this->config->config['master_db_username'];
-		if(get_env() == "DEV"){
-
-		}
-		elseif(get_env() == "PROD")
-		{
-		/*$this->server_name = $this->prod_base;
-		$this->master_db_pass = "kaWraBReTufr22af";
-		$this->sites_base = "../../stores/shopous-sites/";
-		$this->asset_base = $this->sites_base . "assets/";
-		$this->instances_location = $this->sites_base . "instances.php";
-		$this->analytics_db_name = "analytics";
-		$this->analytics_db_prefix = "analytics_";
-		$this->analytics_auth_token = "81d12cde78bed76ace73036bc59710aa";*/
-		}
-		else
-		{
-			echo "Environment not matched";
-			die();
-		}
+		$this->mysql_location = $this->config->config['mysql_location'];
 		$master_db_connection = &$this->master_db_connection;
 		$master_db_connection['hostname'] = "127.0.0.1";
 		$master_db_connection['username'] = $this->master_db_name;
@@ -79,8 +62,39 @@ class Store_model extends CI_Model
 				'db_details'=>json_encode($db_details)
 			);
 		$this->db->insert('stores',$insert);
-		return $this->db->affected_rows();
+		return $insert['id'];
 	}
+	public function delete_store($store_id){
+		$retval = array('result'=>'fail','steps_completed'=>array(),'errors'=>array(),'id'=>$store_id);
+		
+		$result = $this->delete_from_analytics($store_id);
+		if($result['result'] == 'fail'){
+			$retval['errors'][] = $result['errors'];
+		}else{
+			$retval['steps_completed'][] = "Delete Analytics";
+		}
+
+		$result = $this->delete_from_filesystem($store_id);
+		if($result['result'] == 'fail'){
+			$retval['errors'][] = $result['errors'];
+		}else{
+			$retval['steps_completed'][] = "Delete from Filesystem";
+		}
+
+		$result = $this->delete_from_db($store_id);
+		if($result['result'] == 'fail'){
+			$retval['errors'][] = $result['errors'];
+			echo "DB";
+		}else{
+			$retval['steps_completed'][] = "Delete from Database";
+		}
+
+		if(count($retval['errors']) == 0){
+			$retval['result'] = "success";
+		}
+		return $retval;
+	}
+
 	public function create_store($version="",$product_url,$store_name,$email_address){
 		$retval = array('result'=>'fail','steps_completed'=>array(),'messages'=>array());
 		if($version == ""){
@@ -159,8 +173,8 @@ class Store_model extends CI_Model
 			return $retval;
 		}
 		else{$retval['steps_completed'][] = "Exec DB Setup";}
-		
-		if(!$this->add_store_to_index($db_details['username'],$product_url,$store_name,$version,$shopkeeper_token,$shopous_token,$db_details)){
+		$retval['id'] =$this->add_store_to_index($db_details['username'],$product_url,$store_name,$version,$shopkeeper_token,$shopous_token,$db_details);
+		if(!$retval['id']){
 				$retval['messages'][] = "Could not add store to index.";
 				return $retval;	
 		}else{$retval['steps_completed'][] = "Add store to index";}
@@ -583,20 +597,8 @@ class Store_model extends CI_Model
 		}
 		fclose($file_handle);
 		$script_path = "temp/sqltemp.txt";
-		$mysql_location = "";
-		if(get_env() == "DEV"){
-			$mysql_location = "/usr/local/mysql/bin/mysql";
-
-		}
-		else if(get_env() == "PROD")
-		{
-			$mysql_location = "mysql";
-		}
-		else{
-			echo "ENvironment not set up in setup_user_Database()";
-			die();
-		}
-		$command = "$mysql_location -u root -p".$this->master_db_pass . " -h localhost < {$script_path}";
+		$mysql_location = $this->mysql_location;
+		$command = "$mysql_location -u ".$this->master_db_name." -p".$this->master_db_pass . " -h localhost < {$script_path}";
 		$this->debug_message("Running $command");
 		exec($command . ' 2>&1',$output);
 
@@ -641,20 +643,8 @@ class Store_model extends CI_Model
 		}
 		fclose($file_handle);
 		$script_path = "temp/sqltemp.txt";
-		$mysql_location = "";
-		if(get_env() == "DEV"){
-			$mysql_location = "/usr/local/mysql/bin/mysql";
-
-		}
-		else if(get_env() == "PROD")
-		{
-			$mysql_location = "mysql";
-		}
-		else{
-			echo "ENvironment not set up in setup_user_Database()";
-			die();
-		}
-		$command = "$mysql_location -u root -p".$this->master_db_pass . " -h localhost < {$script_path}";
+		$mysql_location = $this->mysql_location;
+		$command = "$mysql_location -u ".$this->master_db_name." -p".$this->master_db_pass . " -h localhost < {$script_path}";
 		$this->debug_message("Running $command");
 		exec($command . ' 2>&1',$output);
 	}
@@ -680,9 +670,9 @@ class Store_model extends CI_Model
 			!isset($result_object->value)
 			){
 				if(isset($result_object->message)){
-					$retval['errors'] = "Set up analytics failed: " . $result_object->message;
+					$retval['errors'] = "Set up analytics failed (Add site): " . $result_object->message;
 				}else{
-					$retval['errors'] = "Could not reach server.";
+					$retval['errors'] = "Could not reach server (Add site).";
 				}
 			$retval['errors'] = $url;
 			return $retval;
@@ -715,7 +705,7 @@ class Store_model extends CI_Model
 		echo "<br />";
 		}		
 		if(isset($result_object->result) && $result_object->result == "error"){
-			$retval['errors'] = "Set up analytics failed: " . $result_object->message;
+			$retval['errors'] = "Set up analytics failed (Add user): " . $result_object->message;
 			return $retval;
 		}
 		$url = $analytics_base . "/?module=API&method=UsersManager.setUserAccess".
@@ -812,25 +802,7 @@ class Store_model extends CI_Model
 						$end_editable - $start_editable,
 						$db_details_formatted
 						);
-						
-						
-		/*$configurables = array();
-		
-		for($i=0;$i<count($rows);$i++){
-		//read till we find the configurable section.
-			if($rows[$i] == "//start_shopous_read"){
-				$i++;
-				while($rows[$i] != "//end_shopous_read"){
-					//read in configurables
-					$config_key = substr($rows[$i],16,8);
-					$config_value = $db_details[$config_key];
-					$rows[$i] = "\$db['default']['$config_key'] = \"$config_value\";";
-					$i++;
-				}
-			}
 
-		}
-		*/
 		$dbconfig_handle = fopen($database_file_location,'w');
 		foreach($rows as $row){
 		fwrite($dbconfig_handle,$row."\n",strlen($row)+1);

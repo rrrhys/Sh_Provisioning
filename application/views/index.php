@@ -1,11 +1,12 @@
 
 <p>Where to go?</p>
 <ul>
+	<li><a href="/store/unit_test/" target="_blank">Run the unit tests (new window).</a></li>
 	<li><a href="/store/create_store/">Create a New store</a></li>
 	<li><a href="/store/list_stores/">List Stores</a></li>
 	<li><a href="/store/list_analytics/">List Analytics</a></li>
 	<li><a href="/store/list_configurables">List Configurables</a></li>
-	<li><?=$guid?></li>
+	<li>A GUID: <?=$guid?></li>
 </ul>
 <p>JSON Reference</p>
 <ul>
