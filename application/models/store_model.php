@@ -25,7 +25,7 @@ class Store_model extends CI_Model
 		
 			$this->server_name = "devshopous.dev";
 		}else{
-			$this->server_name = "shopous.com";
+			$this->server_name = "shopous.com.au";
 
 		}
 		
