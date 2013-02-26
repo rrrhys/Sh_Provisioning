@@ -21,9 +21,14 @@ class Store_model extends CI_Model
 		parent::__construct();
 		$this->base_url = strtolower($_SERVER['HTTP_HOST']);
 		
-	//	if($this->base_url == "provisioning2.devshopous.dev" || $this->base_url == "provisioning.devshopous.dev"){
+		if($this->base_url == "provisioning2.devshopous.dev" || $this->base_url == "provisioning.devshopous.dev"){
 		
-		$this->server_name = $this->dev_base;
+			$this->server_name = "devshopous.dev";
+		}else{
+			$this->server_name = "shopous.com";
+
+		}
+		
 		$this->master_db_pass = $this->config->config['master_db_pass'];
 		$this->sites_base = $this->config->config['relative_sites_base'];
 		$this->asset_base = $this->config->config['relative_assets_base'];
