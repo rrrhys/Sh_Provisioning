@@ -41,7 +41,7 @@
 $db['default']['hostname'] = 'localhost';
 //start_shopous_read
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'insecure_pass';
+$db['default']['password'] = '';
 $db['default']['database'] = 'store_firstclient';
 //end_shopous_read
 $db['default']['dbdriver'] = 'mysql';
