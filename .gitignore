@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-temp/sqltemp.txt
+
 thumbnails/*
 application/config/database_password.php
 application/config/instance_config.php
-=======
 */config/development
 */logs/log-*.php
 */logs/!index.html
 */cache/*
 */cache/!index.html
->>>>>>> 68f2163409c4a049581f06de0bee1af07f9e7ec9
