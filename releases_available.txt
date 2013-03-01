@@ -6,3 +6,4 @@ v0.0.0.4|v0.0.0.3|v0.0.0.4/config.php|v0.0.0.4/database.php|||v0.0.0.4/upgrade_d
 v0.0.0.5|v0.0.0.4|v0.0.0.5/config.php|v0.0.0.5/database.php|||v0.0.0.5/upgrade_db.txt|v0.0.0.5/upgrade_data.txt||
 v0.0.0.6|v0.0.0.5|v0.0.0.6/config.php|v0.0.0.6/database.php|||v0.0.0.6/upgrade_db.txt|v0.0.0.6/upgrade_data.txt||
 v0.0.0.7|v0.0.0.6|v0.0.0.7/config.php|v0.0.0.7/database.php|||v0.0.0.7/upgrade_db.txt|v0.0.0.7/upgrade_data.txt||
+v0.0.0.8|v0.0.0.7|v0.0.0.8/config.php|v0.0.0.8/database.php|||v0.0.0.8/upgrade_db.txt|v0.0.0.8/upgrade_data.txt||

@@ -534,17 +534,24 @@ class Store_model extends CI_Model
 		$upgrade_path = array();
 		$release = $this->get_release($version_id);
 		$upgrade_path[] = $release;
+		$loopcheck = false;
 		while($release['upgrade_from_version'] != $upgrade_from){
 			$release = $this->get_release($release['upgrade_from_version']);
+			if($loopcheck == $release['upgrade_from_version']){
+				echo "Looping";
+				die();
+			}
+			$loopcheck = $release['upgrade_from_version'];
 			$upgrade_path[] = $release;
 
 		}
+
 		$new_db_script = $upgrade_path[count($upgrade_path)-1]['new_database_setup'];
 		$new_data_script = $upgrade_path[count($upgrade_path)-1]['new_database_data'];
 		$upgrade_data_scripts = array();
 		$upgrade_database_setup = array();
-		if(count($upgrade_path) > 1){
-			for($i = count($upgrade_path)-2;$i >=0;$i--){
+		if($upgrade_path){
+			for($i = count($upgrade_path)-1;$i >=0;$i--){
 				$upgrade_data_scripts[] = $upgrade_path[$i]['upgrade_database_data'];
 				$upgrade_database_setup[] = $upgrade_path[$i]['upgrade_database_setup'];
 			}
@@ -567,20 +574,7 @@ class Store_model extends CI_Model
 		$affected_rows += $this->db->affected_rows();
 		return $affected_rows;		
 	}
-	function upgrade_user_database($id,$version){
-		echo $id;
-		echo "<br />";
-		echo $version;
-		$instance = $this->get_instance($id);
-		echo $instance['version'];
-		$database_name = $instance['db_name'];
 
-		//echo json_encode($this->get_upgrade_path($version,$instance['version']));
-
-		$this->migrate($database_name,$version);
-		$instance = $this->get_instance($id);
-		echo $instance['version'];
-	}
 	function setup_user_database($db_details,$version){
 		flush();
 
@@ -616,18 +610,29 @@ class Store_model extends CI_Model
 		//unlink('sqltemp.txt');
 		return true;
 	}
-	function migrate($database_name,$version){
-		$database_setup = $this->get_upgrade_path($version);
-		//echo json_encode($database_setup);
-		//die();
-
+	function migrate($database_name,$new_version,$current_version = ""){
+		$retval = array('result'=>'fail','messages'=>array());
+		$retval['messages'][] = "Upgrading $current_version to $new_version";
+		if($new_version == $current_version){
+			$retval['result'] = "success";
+			$retval['messages'][] = "Versions match - no migration needed.";
+			return $retval;
+		}
+		$database_setup = $this->get_upgrade_path($new_version,$current_version);
 		$filename = $database_setup['new_database_setup'];
+
+		$retval['messages'][] = "Adding $filename to migration.";
 		$db_commands = read_file($filename);
 		foreach($database_setup['upgrade_database_setup'] as $upgrade_file){
 			$filename = $upgrade_file;
 			$db_commands .= read_file($filename);
+			$retval['messages'][] = "Adding $upgrade_file to migration.";
 		}
+
+
+
 		$filename = $database_setup['new_database_data'];
+		$retval['messages'][] = "Adding $filename to migration.";
 		$db_inserts = "";
 		//$db_inserts = "\n--SET UP BASE DATABASE\n";
 		$db_inserts .= read_file($filename);
@@ -635,13 +640,13 @@ class Store_model extends CI_Model
 		foreach($database_setup['upgrade_database_data'] as $upgrade_file){
 			$filename = $upgrade_file;
 			$db_inserts .= read_file($filename);
+			$retval['messages'][] = "Adding $filename to migration.";
 		}
 
 		$rows = array();
 		$rows[] = "connect `$database_name`;";
 		$rows = array_merge((array)$rows,(array)explode("\n",$db_commands));
 		$rows = array_merge((array)$rows,(array)explode("\n",$db_inserts));
-
 		$file_handle = fopen("temp/sqltemp.txt",'w');
 		foreach($rows as $row){
 			fwrite($file_handle,$row . "\n",strlen($row)+1);
@@ -652,6 +657,13 @@ class Store_model extends CI_Model
 		$command = "$mysql_location -u ".$this->master_db_name." -p".$this->master_db_pass . " -h localhost < {$script_path}";
 		$this->debug_message("Running $command");
 		exec($command . ' 2>&1',$output);
+		$this->db->where('db_name',$database_name);
+		$this->db->update('stores',array('version'=>$new_version));
+		if($output != ""){
+			$retval['messages'][] = "MySQL said:";
+			$retval['messages'] = array_merge($retval['messages'],$output);
+		}
+		return $output;
 	}
 	function setup_analytics($userLogin, $password, $email, $alias, $auth_token, $site_url){
 		$retval = array('result'=>'fail','errors'=>array());

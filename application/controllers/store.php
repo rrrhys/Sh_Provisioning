@@ -95,6 +95,14 @@ class Store extends CI_Controller {
 		$this->load->view('list_analytics',$data);
 		$this->load->view('footer',$data);
 	}
+	function migrate_to_current($store_id){
+		$store = $this->store_model->get_instance($store_id);
+		$current_version = $this->store_model->get_latest_release();
+		$migration_output = $this->store_model->migrate($store['db_name'],$current_version['version'],$store['version']);
+		echo "<br>";
+		echo "migration output:";
+		echo json_encode($migration_output);
+	}
 	function list_stores_json(){
 		$stores = $this->store_model->list_instances_active(false);
 		echo json_encode(array('result'=>'success','stores'=>$stores));
@@ -102,6 +110,9 @@ class Store extends CI_Controller {
 	function list_analytics_json(){
 		$analytics = $this->store_model->list_analytics();
 		echo json_encode(array('result'=>'success','analytics'=>$analytics));
+	}
+	function get_current_version(){
+		echo json_encode($this->store_model->get_latest_release());
 	}
 	function delete_store_json($store_id){
 		$result = $this->store_model->delete_store($store_id);

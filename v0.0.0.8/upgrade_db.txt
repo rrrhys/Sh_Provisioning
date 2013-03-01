@@ -1,0 +1,2 @@
+
+alter table categories add column seo_string varchar(200);

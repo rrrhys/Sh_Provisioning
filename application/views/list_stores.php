@@ -1,10 +1,12 @@
 
 <a href="#" id="refresh_table">Refresh</a>
-TO DO: Check Migration Works. /store/upgrade_user_database($id,$version) should upgrade store with $id to $version.
+TO DO: Check Migration Works. /store/upgrade_user_database($id,$version) should upgrade store with $id to $version.<br>
+Current version: <span id="current_version">(Loading)</span>
 <table>
 	<tr>
 		<th>Store Name</th>
 		<th>Store URL</th>
+		<th>Version</th>
 		<th>User Login</th>
 		<th>Shopous Login</th>
 		<th>Delete</th>
@@ -39,10 +41,12 @@ TO DO: Check Migration Works. /store/upgrade_user_database($id,$version) should 
 				$("#loading").hide();
 				if(dataobj.stores.length > 0){
 					$("#store_list").show();
+					stores= dataobj.stores;
 					$.each(dataobj.stores,function(index,store){
 						var row_html = "<tr>" +
 										"<td>" + store.store_name + "</td>" + 
 										"<td><a href='" + store.store_url + "'>" + store.store_url + "</a></td>" +
+										"<td>" + store.version + " <a href='/store/migrate_to_current/" + store.id + "'>Migrate</a></td>" +
 										"<td><a href=" + store.store_url + "/user/login_by_token/" + store.shopkeeper_token + " target='_blank'>Login as User</a></td>" + 
 										"<td><a href=" + store.store_url + "/user/login_by_token/" + store.shopous_token + " target='_blank'>Login as Shopous</a></td>" + 
 										"<td>" + store.id + "</td>" + 
@@ -56,6 +60,11 @@ TO DO: Check Migration Works. /store/upgrade_user_database($id,$version) should 
 					$("#store_list").hide();
 				}
 			}
+		});
+		$.post("/store/get_current_version",{},function(data){
+			var dataobj = $.parseJSON(data);
+			version = dataobj.version;
+			$("#current_version").text(dataobj.version);
 		})
 	}
 	$(function(){

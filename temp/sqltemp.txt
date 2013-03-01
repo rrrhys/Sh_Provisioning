@@ -1,0 +1,11 @@
+connect `store_u_512391`;
+
+alter table categories add column seo_string varchar(200);
+delete from categories where id = '1';
+INSERT INTO `categories` (`id`, `category_name`, `parent_id`,`seo_string`)
+VALUES
+	('1', 'Home', '','home');
+INSERT INTO `configurables` (`id`, `name`, `description`, `title`, `configurable_type`) VALUES
+('4e40de96706c00.60365244', 'home_page', 'This is the front page of your store.', 'Home page', 'page');
+
+
