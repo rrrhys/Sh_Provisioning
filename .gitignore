@@ -7,3 +7,4 @@ application/config/instance_config.php
 */logs/!index.html
 */cache/*
 */cache/!index.html
+temp/sqltemp.txt
