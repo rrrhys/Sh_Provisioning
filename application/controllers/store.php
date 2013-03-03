@@ -98,7 +98,7 @@ class Store extends CI_Controller {
 	function migrate_to_current($store_id){
 		$store = $this->store_model->get_instance($store_id);
 		$current_version = $this->store_model->get_latest_release();
-		$migration_output = $this->store_model->migrate($store['db_name'],$current_version['version'],$store['version']);
+		$migration_output = $this->store_model->migrate($store['db_name'],$current_version['version'],$store['version'],$store);
 		echo "<br>";
 		echo "migration output:";
 		echo json_encode($migration_output);

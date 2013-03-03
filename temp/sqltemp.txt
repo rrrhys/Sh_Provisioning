@@ -1,4 +1,4 @@
-connect `store_u_512391`;
+connect `store_u_852354`;
 
 alter table categories add column seo_string varchar(200);
 delete from categories where id = '1';

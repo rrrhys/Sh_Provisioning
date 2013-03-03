@@ -610,7 +610,7 @@ class Store_model extends CI_Model
 		//unlink('sqltemp.txt');
 		return true;
 	}
-	function migrate($database_name,$new_version,$current_version = ""){
+	function migrate($database_name,$new_version,$current_version = "",$instance_for_moving_config_file=""){
 		$retval = array('result'=>'fail','messages'=>array());
 		$retval['messages'][] = "Upgrading $current_version to $new_version";
 		if($new_version == $current_version){
@@ -663,6 +663,18 @@ class Store_model extends CI_Model
 			$retval['messages'][] = "MySQL said:";
 			$retval['messages'] = array_merge($retval['messages'],$output);
 		}
+
+		//move the config folder to the new v number.
+		//$current_version, $new_version
+		//on successful migrate, regenerate instances file.
+		if(is_array($instance_for_moving_config_file)){
+			$instance = $instance_for_moving_config_file;
+			$snipped_site_address= str_replace("http://", "", $instance['store_url']);
+			$old_config_folder = $this->sites_base."/$current_version/config/$snipped_site_address/";
+			$new_config_folder = $this->sites_base."/$new_version/config/$snipped_site_address/";
+			rename($old_config_folder, $new_config_folder);
+		}
+		$this->regenerate_instances_file();
 		return $output;
 	}
 	function setup_analytics($userLogin, $password, $email, $alias, $auth_token, $site_url){
